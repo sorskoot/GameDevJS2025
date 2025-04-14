@@ -2,13 +2,11 @@
     "objects": {
         "1": {
             "name": "Player",
-            "components": [
-                {
-                    "type": "wasd-controls",
-                    "wasd-controls": {
-                        "headObject": "2"
-                    }
-                }
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
             ],
             "scaling": [
                 0.9999998,
@@ -16,107 +14,108 @@
                 0.9999998
             ],
             "translation": [
-                -3.9999997,
-                1.8000134,
-                4.0
+                0.0,
+                1.0,
+                0.0
             ],
-            "rotation": [
-                0.0,
-                -0.3826834,
-                0.0,
-                0.9238795
+            "components": [
+                {
+                    "type": "player-controller",
+                    "player-controller": {
+                        "speed": 5.0
+                    }
+                }
             ]
         },
         "2": {
-            "name": "NonVrCamera",
-            "parent": "1",
+            "name": "Camera",
+            "parent": "10",
             "components": [
                 {
-                    "type": "view"
-                },
-                {
-                    "type": "mouse-look"
-                }
-            ]
-        },
-        "3": {
-            "name": "EyeLeft",
-            "parent": "1",
-            "components": [
-                {
-                    "type": "view"
-                },
-                {
-                    "type": "input",
-                    "input": {
-                        "type": "eye left"
+                    "type": "view",
+                    "view": {
+                        "projectionType": "perspective",
+                        "extent": 8.0
                     }
                 }
+            ],
+            "scaling": [
+                1.0,
+                0.9999999,
+                0.9999998
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "62": {
+            "link": {
+                "name": "Cube1m",
+                "file": "assets\\models\\Cube1m.glb"
+            },
+            "parent": "4",
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "4": {
-            "name": "EyeRight",
-            "parent": "1",
-            "components": [
-                {
-                    "type": "view"
-                },
-                {
-                    "type": "input",
-                    "input": {
-                        "type": "eye right"
-                    }
-                }
+            "name": "GroundGeneral",
+            "parent": "9",
+            "translation": [
+                0.0,
+                -100.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "5": {
-            "name": "FloorPlane",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "1",
-                        "material": "1"
-                    }
-                }
-            ],
-            "scaling": [
-                15.9999961,
-                16.0,
-                16.0
-            ],
-            "translation": [
-                0.0,
-                -0.0,
-                1.1921009956950004e-7
-            ],
-            "rotation": [
-                -0.7072544,
-                0.0,
-                0.0,
-                0.7069591
-            ]
+            "name": "Managers"
         },
         "6": {
-            "name": "Cube",
+            "name": "Light.000",
             "components": [
                 {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "2",
-                        "material": "2"
-                    }
+                    "type": "light",
+                    "light": {
+                        "intensity": 0.5,
+                        "type": "point",
+                        "shadows": false,
+                        "outerAngle": 120.0,
+                        "innerAngle": 110.0,
+                        "shadowRange": 20.0,
+                        "color": [
+                            0.9611306,
+                            0.0,
+                            1.0
+                        ]
+                    },
+                    "active": true
                 }
             ],
             "scaling": [
-                0.5,
-                0.5,
-                0.5
+                0.9999989,
+                0.9999976,
+                0.9999991
             ],
+            "parent": "1",
             "translation": [
-                -0.6665739,
-                0.4999999,
-                0.5696738
+                0.0,
+                0.3313224,
+                0.0
             ],
             "rotation": [
                 0.0,
@@ -126,117 +125,142 @@
             ]
         },
         "7": {
-            "name": "Light",
+            "name": "Input",
+            "parent": "5",
             "components": [
                 {
-                    "type": "light",
-                    "light": {
-                        "intensity": 9.0,
-                        "type": "spot",
-                        "outerAngle": 120.0,
-                        "shadows": true,
-                        "shadowRange": 20.0,
-                        "innerAngle": 110.0
+                    "type": "keyboard-controller"
+                }
+            ]
+        },
+        "20": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            },
+            "parent": "19",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "6"
                     }
                 }
             ],
             "scaling": [
-                1.0000013,
-                0.9999992,
+                0.5,
+                0.5,
+                0.5
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
                 1.0
             ],
             "translation": [
-                -0.2080335,
-                3.2420806,
-                2.9316577
-            ],
-            "rotation": [
-                0.2517567,
-                -0.7649071,
-                -0.1853631,
-                0.5631838
-            ]
-        },
-        "8": {
-            "name": "Light.000",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "intensity": 9.0,
-                        "type": "spot",
-                        "shadows": true,
-                        "outerAngle": 120.0,
-                        "innerAngle": 110.0,
-                        "shadowRange": 20.0
-                    }
-                }
-            ],
-            "scaling": [
-                0.9999988,
-                0.9999977,
-                0.9999989
-            ],
-            "translation": [
-                -2.3912234,
-                3.4619092,
-                -3.0973172
-            ],
-            "rotation": [
-                -0.3265219,
-                0.1176851,
-                0.3179933,
-                0.8822776
+                0.0,
+                0.5,
+                0.0
             ]
         },
         "9": {
-            "name": "Cone",
+            "name": "TestWorld",
             "components": [
                 {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "4",
-                        "material": "3"
+                    "type": "map-loader",
+                    "map-loader": {
+                        "tile": "4",
+                        "tileWhite": "17",
+                        "tileBlack": "19",
+                        "tileRed": "68"
                     }
                 }
+            ]
+        },
+        "10": {
+            "name": "FollowCamera",
+            "parent": null,
+            "components": [
+                {
+                    "type": "player-follow",
+                    "player-follow": {
+                        "player": "1",
+                        "lookAtPlayer": false,
+                        "speed": 5.0,
+                        "distance": 6.0,
+                        "height": 0.5
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scaling": [
+                0.9999997,
+                1.0,
+                0.9999997
+            ]
+        },
+        "11": {
+            "name": "Light.001",
+            "parent": "12",
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "color": [
+                            1.0,
+                            0.0,
+                            0.0
+                        ],
+                        "intensity": 0.25
+                    }
+                }
+            ]
+        },
+        "12": {
+            "name": "Empty.000",
+            "parent": "15",
+            "translation": [
+                0.0,
+                0.5000001,
+                2.9802322387695313e-8
+            ],
+            "rotation": [
+                0.3535534,
+                0.3535534,
+                -0.1464466,
+                0.8535533
             ],
             "scaling": [
                 1.0,
                 1.0,
                 1.0
-            ],
-            "translation": [
-                0.8334258,
-                1.0,
-                0.5696737
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
             ]
         },
-        "10": {
-            "name": "Sphere",
+        "13": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            },
+            "parent": "12",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "3",
+                        "mesh": "7",
                         "material": "4"
                     }
                 }
             ],
             "scaling": [
-                0.75,
-                0.75,
-                0.75
-            ],
-            "translation": [
-                -0.166574,
-                0.75,
-                -0.6803262
+                0.25,
+                0.25,
+                0.25
             ],
             "rotation": [
                 0.0,
@@ -244,6 +268,317 @@
                 0.0,
                 1.0
             ]
+        },
+        "14": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            },
+            "parent": "16",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "3"
+                    }
+                }
+            ],
+            "scaling": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "15": {
+            "name": "Target",
+            "translation": [
+                0.0,
+                1.0,
+                -7.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "16": {
+            "name": "Empty",
+            "parent": "1"
+        },
+        "17": {
+            "name": "GroundWhite",
+            "parent": "9",
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                -100.0,
+                1.5
+            ]
+        },
+        "18": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            },
+            "parent": "17",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "5"
+                    }
+                }
+            ],
+            "scaling": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ]
+        },
+        "19": {
+            "name": "GroundBlack",
+            "parent": "9",
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                -100.0,
+                3.0
+            ]
+        },
+        "21": {
+            "name": "Collision",
+            "parent": "4",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.5,
+                                0.5,
+                                0.5
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "66": {
+            "name": "Collision",
+            "parent": "19",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.5,
+                                0.5,
+                                0.5
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "67": {
+            "name": "Collision",
+            "parent": "17",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.5,
+                                0.5,
+                                0.5
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "68": {
+            "name": "GroundRed",
+            "parent": "9",
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                -100.0,
+                -1.5
+            ]
+        },
+        "69": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            },
+            "parent": "68",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "71"
+                    }
+                }
+            ],
+            "scaling": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ]
+        },
+        "70": {
+            "name": "Collision",
+            "parent": "68",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.5,
+                                0.5,
+                                0.5
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "72": {
+            "name": "UI"
         }
     },
     "meshes": {
@@ -281,6 +616,18 @@
             "link": {
                 "name": "PrimitiveCircle",
                 "file": "default"
+            }
+        },
+        "7": {
+            "link": {
+                "name": "Cube1mChamfer",
+                "file": "assets\\models\\Cube1mChamfer.glb"
+            }
+        },
+        "61": {
+            "link": {
+                "name": "Cube1m",
+                "file": "assets\\models\\Cube1m.glb"
             }
         }
     },
@@ -326,12 +673,12 @@
             "pipeline": "5"
         },
         "2": {
-            "name": "Pink",
+            "name": "Ground_General",
             "Phong": {
                 "diffuseColor": [
-                    0.9098039,
-                    0.0,
-                    0.5411764,
+                    0.5,
+                    0.5,
+                    0.5,
                     1.0
                 ],
                 "specularColor": [
@@ -342,27 +689,33 @@
                 ],
                 "shininess": 10,
                 "ambientColor": [
-                    0.05,
-                    0.05,
-                    0.05,
+                    0.5,
+                    0.5,
+                    0.5,
                     1.0
                 ],
                 "emissiveColor": [
-                    0.1921568,
                     0.0,
-                    0.1310161,
+                    0.0,
+                    0.0,
                     1.0
+                ],
+                "fogColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.545098
                 ]
             },
             "pipeline": "5"
         },
         "3": {
-            "name": "Yellow",
+            "name": "Player",
             "Phong": {
                 "diffuseColor": [
                     1.0,
-                    0.8039215,
                     0.0,
+                    0.9176473,
                     1.0
                 ],
                 "specularColor": [
@@ -378,21 +731,21 @@
                     1.0
                 ],
                 "emissiveColor": [
-                    0.2588235,
-                    0.2080737,
+                    1.0,
                     0.0,
+                    0.9176473,
                     1.0
                 ]
             },
             "pipeline": "5"
         },
         "4": {
-            "name": "Green",
+            "name": "Target",
             "Phong": {
                 "diffuseColor": [
-                    0.1529411,
-                    0.7882353,
-                    0.5411764,
+                    1.0,
+                    0.0,
+                    0.0,
                     1.0
                 ],
                 "specularColor": [
@@ -408,70 +761,157 @@
                     1.0
                 ],
                 "emissiveColor": [
+                    0.290196,
                     0.0,
-                    0.1686274,
-                    0.10305,
+                    0.0,
                     1.0
+                ],
+                "fogColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.8
                 ]
             },
             "pipeline": "5"
         },
         "5": {
-            "name": "Sky",
+            "name": "Ground_Light",
             "Phong": {
+                "diffuseColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularColor": [
                     9.999899930335232e-7,
-                    9.99993744699168e-7,
+                    9.999911299019004e-7,
                     9.999999974752427e-7,
                     1.0
                 ],
-                "shininess": 1,
-                "emissiveColor": [
-                    0.2,
-                    0.2,
-                    0.2,
-                    1.0
-                ],
+                "shininess": 10,
                 "ambientColor": [
-                    0.05,
-                    0.05,
-                    0.05,
+                    1.0,
+                    1.0,
+                    1.0,
                     1.0
                 ],
+                "emissiveColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "fogColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.545098
+                ]
+            },
+            "pipeline": "5"
+        },
+        "6": {
+            "name": "Ground_Dark",
+            "Phong": {
+                "diffuseColor": [
+                    0.1137254,
+                    0.1137254,
+                    0.1137254,
+                    1.0
+                ],
+                "specularColor": [
+                    9.999899930335232e-7,
+                    9.999911299019004e-7,
+                    9.999999974752427e-7,
+                    1.0
+                ],
+                "shininess": 10,
+                "ambientColor": [
+                    0.1137254,
+                    0.1137254,
+                    0.1137254,
+                    1.0
+                ],
+                "emissiveColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "fogColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.545098
+                ]
+            },
+            "pipeline": "5"
+        },
+        "60": {
+            "link": {
+                "name": "Cube1mMaterial",
+                "file": "assets\\models\\Cube1m.glb"
+            },
+            "Phong": {
                 "diffuseColor": [
                     0.5,
                     0.5,
                     0.5,
                     1.0
-                ]
-            },
-            "pipeline": "13",
-            "Sky": {
-                "colorStop3": [
-                    0.57584,
-                    0.5798863,
-                    0.5803921,
-                    1.0
                 ],
-                "colorStop2": [
-                    0.2023221,
-                    0.2037438,
-                    0.2039215,
-                    1.0
+                "shininess": 63,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
                 ],
-                "colorStop1": [
-                    0.2023221,
-                    0.2037438,
-                    0.2039215,
-                    1.0
-                ],
-                "colorStop0": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
+                "emissiveColor": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
                 ]
             }
+        },
+        "71": {
+            "name": "Ground_Red",
+            "Phong": {
+                "diffuseColor": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "specularColor": [
+                    9.999899930335232e-7,
+                    9.999911299019004e-7,
+                    9.999999974752427e-7,
+                    1.0
+                ],
+                "shininess": 10,
+                "ambientColor": [
+                    0.2,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "emissiveColor": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "fogColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.545098
+                ]
+            },
+            "pipeline": "5"
         }
     },
     "shaders": {
@@ -768,6 +1208,66 @@
                 "name": "lib\\Textures.glsl",
                 "file": "default"
             }
+        },
+        "50": {
+            "link": {
+                "name": "lib\\Compatibility.frag",
+                "file": "default"
+            }
+        },
+        "51": {
+            "link": {
+                "name": "lib\\GI.frag",
+                "file": "default"
+            }
+        },
+        "52": {
+            "link": {
+                "name": "lib\\Inputs.frag",
+                "file": "default"
+            }
+        },
+        "53": {
+            "link": {
+                "name": "lib\\Lights.frag",
+                "file": "default"
+            }
+        },
+        "54": {
+            "link": {
+                "name": "lib\\Materials.frag",
+                "file": "default"
+            }
+        },
+        "55": {
+            "link": {
+                "name": "lib\\Packing.frag",
+                "file": "default"
+            }
+        },
+        "56": {
+            "link": {
+                "name": "lib\\Slug.frag",
+                "file": "default"
+            }
+        },
+        "57": {
+            "link": {
+                "name": "lib\\Slug.vert",
+                "file": "default"
+            }
+        },
+        "58": {
+            "link": {
+                "name": "lib\\Surface.frag",
+                "file": "default"
+            }
+        },
+        "59": {
+            "link": {
+                "name": "lib\\Textures.frag",
+                "file": "default"
+            }
         }
     },
     "settings": {
@@ -777,11 +1277,15 @@
                 1,
                 3,
                 4
-            ]
+            ],
+            "type": "game"
         },
         "xr": {
-            "leftEyeObject": "3",
-            "rightEyeObject": "4"
+            "leftEyeObject": null,
+            "rightEyeObject": null,
+            "vr": {
+                "enable": false
+            }
         },
         "scripting": {
             "application": {
@@ -789,7 +1293,12 @@
                 "bundling": "esbuild"
             },
             "components": {
-                "output": "Equilibrium-bundle.js"
+                "output": "Equilibrium-bundle.js",
+                "sourcePaths": [
+                    "js/",
+                    "js/components",
+                    "js/components/input"
+                ]
             },
             "libraryPaths": [
                 "/js/lib/"
@@ -800,12 +1309,26 @@
                 "exposure": 1.5
             },
             "sky": {
-                "enabled": true,
+                "enabled": false,
                 "material": "5"
-            }
+            },
+            "clearColor": [
+                0.2392156,
+                0.2392156,
+                0.2392156,
+                1.0
+            ]
         },
         "runtime": {
-            "viewObject": "2"
+            "viewObject": "2",
+            "visualizePhysX": false,
+            "visualizeColliders": false
+        },
+        "physx": {
+            "enable": false
+        },
+        "editor": {
+            "serverPort": 8256
         }
     },
     "animations": {},
@@ -949,7 +1472,18 @@
         }
     },
     "languages": {},
-    "files": {},
+    "files": {
+        "1": {
+            "fileName": "assets/models/Cube1mChamfer.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "63": {
+            "fileName": "assets/models/Cube1m.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        }
+    },
     "morphTargets": {},
     "particleEffects": {}
 }

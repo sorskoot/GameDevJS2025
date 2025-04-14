@@ -9,13 +9,17 @@
  */
 
 /* wle:auto-imports:start */
-import {MouseLookComponent} from '@wonderlandengine/components';
-import {WasdControlsComponent} from '@wonderlandengine/components';
+import {KeyboardController as KeyboardController1} from './components/input/keyboard-controller.js';
+import {MapLoader} from './components/map-loader.js';
+import {PlayerController} from './components/player-controller.js';
+import {PlayerFollow} from './components/player-follow.js';
 /* wle:auto-imports:end */
 
 export default function(engine) {
 /* wle:auto-register:start */
-engine.registerComponent(MouseLookComponent);
-engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(KeyboardController1);
+engine.registerComponent(MapLoader);
+engine.registerComponent(PlayerController);
+engine.registerComponent(PlayerFollow);
 /* wle:auto-register:end */
 }

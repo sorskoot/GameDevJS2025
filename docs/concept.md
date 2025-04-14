@@ -107,3 +107,32 @@ Additional Ideas:
 - Sound design that shifts between calm and tense based on energy balance
 
 This concept should be achievable with simple geometry while still offering engaging gameplay centered around the balance theme.
+
+## Plan
+
+Here's a potential initial implementation plan to get the core mechanics working:
+
+1. **Player Controller:**
+    - Implement basic movement (left/right, forward/back).
+    - Implement jumping.
+    - Implement collision detection and response with world geometry.
+2. **Dimension Switching:**
+    - Create the mechanism to toggle between Light and Dark dimensions.
+    - Switch active platform sets based on the current dimension.
+    - Update visual background/foreground accordingly.
+3. **Basic Objects:**
+    - Create a simple 3D representation for the player.
+    - Create basic static platform objects for both Light and Dark worlds.
+    - Create a simple representation for collectible Crystals (e.g., red cubes).
+    - Create a simple representation for the end-of-level Portal.
+4. **Energy System:**
+    - Implement Light and Dark energy variables.
+    - Implement depletion logic when in the opposite dimension.
+    - Implement recharge logic when in the corresponding dimension.
+    - Implement energy cost for switching dimensions.
+5. **Platform Shifting Mechanic:**
+    - Detect when the player lands on a platform.
+    - Start a timer for the platform to shift dimensions.
+    - Implement the visual change and collision change when a platform shifts.
+6. **Basic UI:**
+    - Display simple bars or indicators for the current Light and Dark energy levels.
