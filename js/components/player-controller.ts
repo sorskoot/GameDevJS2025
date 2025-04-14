@@ -4,6 +4,7 @@ import { InputManager, KeyType } from './input/InputManager.js';
 import { quat, vec3 } from 'gl-matrix';
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { RayHit } from '@wonderlandengine/api'; // Import RayHit
+import { Tags } from '@sorskoot/wonderland-components';
 
 const moveVec3 = vec3.create();
 const posVec3 = vec3.create();
@@ -57,10 +58,7 @@ export class PlayerController extends Component {
         // this._animationComponent =
         //     this.animationRoot.getComponent(AnimationComponent)!;
         GlobalEvents.instance.TeleportPlayer.add(this._onTeleportPlayer, this);
-        // Store initial Y position (less critical now, but good for reference)
-        this.object.getPositionWorld(posVec3);
-        this._isGrounded = this._checkGrounded(); // Initial ground check
-        this._verticalVelocity = 0; // Ensure starting with no vertical movement
+        this._reset(); // Reset state on start
     }
 
     update(dt: number) {
@@ -159,6 +157,11 @@ export class PlayerController extends Component {
                 if (!wasGrounded) {
                     const groundHit = this._getGroundHit();
                     if (groundHit && groundHit.hitCount > 0) {
+                        if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                            this._die();
+                            return;
+                        }
+
                         this.object.getPositionWorld(posVec3);
                         // Calculate the exact ground position
                         const groundY =
@@ -186,6 +189,10 @@ export class PlayerController extends Component {
             if (this._isGrounded && this._verticalVelocity < 0) {
                 const groundHit = this._getGroundHit();
                 if (groundHit && groundHit.hitCount > 0) {
+                    if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                        this._die();
+                        return;
+                    }
                     this.object.getPositionWorld(posVec3);
                     const groundY =
                         posVec3[1] +
@@ -200,6 +207,19 @@ export class PlayerController extends Component {
                 }
             }
         }
+    }
+    private _die() {
+        // Handle player death (e.g., respawn, reset position, etc.)
+        console.log('Player died! Implement respawn logic here.');
+        GlobalEvents.instance.PlayerDied.dispatch(); // Dispatch event for player death
+        this._reset();
+    }
+
+    private _reset() {
+        // Store initial Y position (less critical now, but good for reference)
+        this.object.getPositionWorld(posVec3);
+        this._isGrounded = this._checkGrounded(); // Initial ground check
+        this._verticalVelocity = 0; // Ensure starting with no vertical movement
     }
 
     private _handleInput(dt: number) {

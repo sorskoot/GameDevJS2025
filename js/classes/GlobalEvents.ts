@@ -5,6 +5,7 @@ export class GlobalEvents {
 
     TeleportPlayer = new Signal<[position: number[]]>();
     SwitchDimension = new Signal<[]>();
+    PlayerDied = new Signal<[]>();
 
     static get instance(): GlobalEvents {
         if (!GlobalEvents._instance) {

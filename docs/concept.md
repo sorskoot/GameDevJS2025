@@ -136,3 +136,21 @@ Here's a potential initial implementation plan to get the core mechanics working
     - Implement the visual change and collision change when a platform shifts.
 6. **Basic UI:**
     - Display simple bars or indicators for the current Light and Dark energy levels.
+
+---
+
+## Energy as Health
+
+- Switching worlds draws energy
+
+Mechanic: Getting hit by enemies or specific hazards drains a chunk of your energy.
+
+- Getting hit in the Light World drains your Dark Energy (because that's what you'd need to escape to).
+- Getting hit in the Dark World drains your Light Energy.
+Failure Condition: If either energy type hits zero, you "overload" or "destabilize" – maybe a flashy visual effect, and you reset to the last stable checkpoint (perhaps the last "Red" platform you touched).
+Pros:
+- Highly Thematic: Directly ties damage/risk to the core balancing mechanic. Every hit impacts your ability to switch worlds, reinforcing the interdependence.
+- Focused: Keeps the player managing only the two core energy resources. No separate health bar needed.
+- Potentially Simpler: Resetting to a checkpoint might be simpler to implement than complex death states/animations.
+Cons:
+Can be frustrating if energy drains too fast or checkpoints are too far apart. Needs careful balancing.

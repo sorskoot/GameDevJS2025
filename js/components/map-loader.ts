@@ -23,8 +23,12 @@ export class MapLoader extends Component {
     @property.object({ required: true })
     tileRed!: Object3D;
 
+    @property.object({ required: true })
+    target!: Object3D;
+
     private _whiteBlocks: Object3D[] = []; // Array to store white blocks
     private _blackBlocks: Object3D[] = []; // Array to store black blocks
+    private _startPos: number[];
 
     start() {
         // Validate required properties
@@ -48,8 +52,17 @@ export class MapLoader extends Component {
             this._onSwitchDimension,
             this
         );
+
+        GlobalEvents.instance.PlayerDied.add(this._onPlayerDied, this);
+
         this._isLight = true;
         this.engine.scene.clearColor = [0, 0, 0, 1];
+    }
+
+    private _onPlayerDied() {
+        this._isLight = true;
+        this._updateLightState();
+        GlobalEvents.instance.TeleportPlayer.dispatch(this._startPos);
     }
 
     async loadMap(mapName: string): Promise<void> {
@@ -108,18 +121,13 @@ export class MapLoader extends Component {
         for (const layer of data.layers) {
             if (layer.type === 'objectgroup' && layer.objects) {
                 for (const obj of layer.objects) {
-                    if (
-                        obj.name &&
-                        (obj.name.toLowerCase().includes('start') ||
-                            obj.name.toLowerCase().includes('spawn') ||
-                            obj.name.toLowerCase().includes('player'))
-                    ) {
+                    if (obj.name && obj.name.toLowerCase().includes('start')) {
                         if (
                             typeof obj.x === 'number' &&
                             typeof obj.y === 'number'
                         ) {
                             // Convert from Tiled coordinates to world coordinates
-                            const startPos = [
+                            this._startPos = [
                                 (obj.x - 16) * TILE_SCALE,
                                 -(obj.y - 16) * TILE_SCALE,
                                 0,
@@ -127,10 +135,23 @@ export class MapLoader extends Component {
 
                             // Trigger teleport event
                             GlobalEvents.instance.TeleportPlayer.dispatch(
-                                startPos
+                                this._startPos
                             );
-
-                            break;
+                        }
+                    }
+                    if (obj.name && obj.name.toLowerCase().includes('end')) {
+                        if (
+                            typeof obj.x === 'number' &&
+                            typeof obj.y === 'number'
+                        ) {
+                            // Convert from Tiled coordinates to world coordinates
+                            const pos = [
+                                obj.x * TILE_SCALE,
+                                -(obj.y - 16) * TILE_SCALE,
+                                0,
+                            ];
+                            this.target.resetPositionRotation();
+                            this.target.setPositionWorld(pos);
                         }
                     }
                 }
@@ -143,19 +164,13 @@ export class MapLoader extends Component {
 
     _isLight: boolean = true;
     private _onSwitchDimension() {
-        if (this._isLight) {
-            this._isLight = false;
-            this.engine.scene.clearColor = [1, 1, 1, 1];
-        } else {
-            this._isLight = true;
-            this.engine.scene.clearColor = [0, 0, 0, 1];
-        }
-
+        this._isLight = !this._isLight;
         this._updateLightState();
     }
 
     private _updateLightState() {
         if (this._isLight) {
+            this.engine.scene.clearColor = [0, 0, 0, 1];
             this._blackBlocks.forEach((block) => {
                 wlUtils.setActive(block, false);
             });
@@ -163,6 +178,7 @@ export class MapLoader extends Component {
                 wlUtils.setActive(block, true);
             });
         } else {
+            this.engine.scene.clearColor = [1, 1, 1, 1];
             this._blackBlocks.forEach((block) => {
                 wlUtils.setActive(block, true);
             });

@@ -12,11 +12,12 @@
         "wonderland-engine"
     ],
     "dependencies": {
-        "@wonderlandengine/components": "^1.2.1",
-        "@sorskoot/wonderland-components": "^1.5.1",
-        "gl-matrix": "^3.4.3",
+        "@sorskoot/wonderland-components": "^1.5.2",
         "@wonderlandengine/api": "^1.3.4",
-        "react": "^19.1.0"
+        "@wonderlandengine/components": "^1.2.1",
+        "@wonderlandengine/react-ui": "file:libs/wonderlandengine-react-ui-0.2.10.tgz",
+        "gl-matrix": "^3.4.3",
+        "react": "^18.2.0"
     },
     "overrides": {
         "@wonderlandengine/api": "$@wonderlandengine/api"

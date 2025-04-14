@@ -60,6 +60,15 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "material": "2",
+                        "mesh": "61"
+                    }
+                }
             ]
         },
         "4": {
@@ -174,7 +183,8 @@
                         "tile": "4",
                         "tileWhite": "17",
                         "tileBlack": "19",
-                        "tileRed": "68"
+                        "tileRed": "68",
+                        "target": "82"
                     }
                 }
             ]
@@ -522,7 +532,8 @@
                     "mesh": {
                         "mesh": "2",
                         "material": "71"
-                    }
+                    },
+                    "active": false
                 }
             ],
             "scaling": [
@@ -553,10 +564,134 @@
                         "aabb": {
                             "extents": [
                                 0.5,
-                                0.5,
+                                0.25,
                                 0.5
                             ]
                         }
+                    }
+                },
+                {
+                    "type": "tags",
+                    "tags": {
+                        "tags": "death"
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                0.25,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "72": {
+            "name": "UI",
+            "components": [
+                {
+                    "type": "main-ui",
+                    "main-ui": {
+                        "space": "screen",
+                        "textMaterial": "DefaultFontMaterial",
+                        "width": 1280,
+                        "height": 720,
+                        "scalingMode": "FixedHeight",
+                        "manualHeight": 1280.0,
+                        "manualWidth": 720.0,
+                        "panelMaterial": "73",
+                        "panelMaterialTextured": "74"
+                    }
+                }
+            ]
+        },
+        "80": {
+            "link": {
+                "name": "spikesLarge",
+                "file": "assets\\models\\spikesLarge.glb"
+            },
+            "parent": "68",
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.6,
+                1.6,
+                1.6
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "material": "2",
+                        "mesh": "79"
+                    }
+                }
+            ]
+        },
+        "82": {
+            "name": "Target",
+            "parent": "9",
+            "translation": [
+                0.0,
+                -100.0,
+                0.0
+            ]
+        },
+        "83": {
+            "name": "Mesh",
+            "parent": "82",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "71"
+                    }
+                },
+                {
+                    "type": "target-animator"
+                }
+            ],
+            "scaling": [
+                0.3,
+                0.5,
+                0.3
+            ],
+            "translation": [
+                0.0,
+                0.2,
+                0.0
+            ]
+        },
+        "84": {
+            "name": "Light",
+            "parent": "83",
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "color": [
+                            1.0,
+                            0.0,
+                            0.0
+                        ]
                     }
                 }
             ],
@@ -576,9 +711,6 @@
                 1.0,
                 1.0
             ]
-        },
-        "72": {
-            "name": "UI"
         }
     },
     "meshes": {
@@ -628,6 +760,12 @@
             "link": {
                 "name": "Cube1m",
                 "file": "assets\\models\\Cube1m.glb"
+            }
+        },
+        "79": {
+            "link": {
+                "name": "Mesh spikesLarge",
+                "file": "assets\\models\\spikesLarge.glb"
             }
         }
     },
@@ -682,9 +820,9 @@
                     1.0
                 ],
                 "specularColor": [
-                    9.999899930335232e-7,
-                    9.999911299019004e-7,
-                    9.999999974752427e-7,
+                    1.0,
+                    1.0,
+                    1.0,
                     1.0
                 ],
                 "shininess": 10,
@@ -785,9 +923,9 @@
                     1.0
                 ],
                 "specularColor": [
-                    9.999899930335232e-7,
-                    9.999911299019004e-7,
-                    9.999999974752427e-7,
+                    1.0,
+                    1.0,
+                    1.0,
                     1.0
                 ],
                 "shininess": 10,
@@ -795,13 +933,13 @@
                     1.0,
                     1.0,
                     1.0,
-                    1.0
+                    0.8
                 ],
                 "emissiveColor": [
                     0.0,
                     0.0,
                     0.0,
-                    1.0
+                    0.0
                 ],
                 "fogColor": [
                     0.0,
@@ -822,9 +960,9 @@
                     1.0
                 ],
                 "specularColor": [
-                    9.999899930335232e-7,
-                    9.999911299019004e-7,
-                    9.999999974752427e-7,
+                    1.0,
+                    1.0,
+                    1.0,
                     1.0
                 ],
                 "shininess": 10,
@@ -912,6 +1050,23 @@
                 ]
             },
             "pipeline": "5"
+        },
+        "73": {
+            "name": "flatUI_material",
+            "pipeline": "2"
+        },
+        "74": {
+            "name": "flatUI_material_Textured",
+            "pipeline": "3",
+            "Flat": {
+                "flatTexture": "76"
+            }
+        },
+        "78": {
+            "link": {
+                "name": "metal",
+                "file": "assets\\models\\spikesLarge.glb"
+            }
         }
     },
     "shaders": {
@@ -1297,7 +1452,8 @@
                 "sourcePaths": [
                     "js/",
                     "js/components",
-                    "js/components/input"
+                    "js/components/input",
+                    "js/ui"
                 ]
             },
             "libraryPaths": [
@@ -1461,8 +1617,22 @@
             }
         }
     },
-    "textures": {},
-    "images": {},
+    "textures": {
+        "76": {
+            "link": {
+                "name": "white_square.png",
+                "file": "assets\\white_square.png"
+            }
+        }
+    },
+    "images": {
+        "75": {
+            "link": {
+                "name": "white_square.png",
+                "file": "assets\\white_square.png"
+            }
+        }
+    },
     "fonts": {
         "1": {
             "link": {
@@ -1480,6 +1650,15 @@
         },
         "63": {
             "fileName": "assets/models/Cube1m.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "77": {
+            "fileName": "assets/white_square.png",
+            "importerName": ""
+        },
+        "81": {
+            "fileName": "assets/models/spikesLarge.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         }
