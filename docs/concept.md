@@ -1,0 +1,109 @@
+# Light and Dark Balance Game Concept
+
+Based on your idea and the GameDevJS 2025 "Balance" theme, here's a game concept that uses simple 3D geometry while focusing on the balance between light and dark:
+
+## Core Concept: "Equilibrium"
+
+A 3D platformer/puzzle game where you navigate through a world that exists in two states - Light and Dark - and you must maintain balance between them.
+
+## Game Objectives and Progression
+
+Core Game Goal:
+
+- Restore balance to a fractured world by reuniting the Light and Dark dimensions
+- Progress through increasingly complex environments to reach the central something where dimensions can be realigned (outside of score for the jam?)
+
+Level Structure:
+
+- Each level represents a fragment of the world that needs rebalancing
+- Levels are organized into zones (3-5 levels per zone), each with a distinct visual theme
+- Complete all levels in a zone to unlock the next zone
+
+Level Objectives:
+
+- Primary Goal: Reach the "Balance Portal" at the end of each level to progress
+- Secondary Goal: Collect Red Crystals scattered throughout the level
+  - Collecting all crystals in a level unlocks bonus content (alternative paths, cosmetics)
+  - Crystals also serve the gameplay purpose of temporarily restoring balance between energies
+- Optional Challenges: Complete the level within a time limit or with minimal dimension switches
+
+Progression System:
+
+- Completing levels unlocks new abilities that enhance dimension manipulation
+- Collecting specific numbers of crystals unlocks special areas with lore elements
+- Successfully maintaining balanced energy throughout a level grants bonus rewards
+
+Final Challenge:
+
+- The ultimate goal is to reach and activate the "Equilibrium Nexus" in the final level
+- This requires mastery of both dimension switching and energy management
+- The final sequence requires perfect balance of both energy types
+
+## Game Mechanics
+
+World Switching:
+
+- Two Parallel Dimensions: Light world (white platforms on black background) and Dark world (black platforms on white background)
+- Each world has unique platforms, obstacles, and paths
+- Some platforms exist in both worlds but may have different properties
+
+Platform Dynamics:
+
+- Platforms gradually shift to the opposite dimension after standing on them for 10 seconds
+- Jumping on a platform accelerates this shifting process
+- Creates natural urgency and forces strategic movement
+- Some special "stable" platforms may exist that don't shift
+
+Energy System:
+
+- Dual Energy Meters: Light Energy and Dark Energy
+- Light Energy depletes while in the Dark world and recharges in the Light world
+- Dark Energy depletes while in the Light world and recharges in the Dark world
+- Moving drains energy from your current world's energy supply
+- Taking damage from hazards or enemies costs significant energy
+- Switching worlds costs energy of the world you're entering
+- If your energy for a particular world reaches zero, you cannot enter that world until it recharges
+
+Balance Consequences:
+
+- Imbalance Effects: If one energy type gets too high compared to the other:
+  - Movement becomes sluggish
+  - Jump height decreases
+  - Vision becomes distorted
+  - Platforms may start to fade/become unstable
+
+Gameplay Elements:
+
+- Red Crystals: Special objects that exist in both dimensions simultaneously (like the red cube in your concept art)
+  - Collecting these temporarily restores balance between energies
+  - Could be main collectibles/objectives
+- Dimension-Specific Hazards: Obstacles that drain energy faster
+- Timed Challenges: Sections requiring quick switching between worlds
+- Strategic Planning: Players must balance platform hopping (causing shifts) against energy conservation
+
+Progression Ideas:
+
+- Start with simple level design teaching the basic switching mechanic
+- Introduce energy management challenges
+- Create puzzles that require strategic switching and balance maintenance
+- Develop more complex levels with platform shifting puzzles
+- Late-game levels that require mastery of platform shifting timing
+
+Visual Style:
+
+- Minimalist geometric shapes with high contrast
+- White objects on black background in Light world
+- Black objects on white background in Dark world
+- Red elements for important objects that exist in both worlds
+- Simple particle effects for transitions between worlds
+- Visual indicators showing platforms about to shift (subtle pulsing or color change)
+
+Additional Ideas:
+
+- Special platforms that reverse energy flow (Light platforms in Dark world and vice versa)
+- "Safe zones" where platforms don't shift, allowing players to strategize
+- Platforms that shift at different rates (fast/slow shifting challenges)
+- Enemies that can only be defeated in a specific world
+- Sound design that shifts between calm and tense based on energy balance
+
+This concept should be achievable with simple geometry while still offering engaging gameplay centered around the balance theme.

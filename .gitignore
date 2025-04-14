@@ -1,0 +1,7 @@
+deploy/
+node_modules/
+cache/
+.editor/
+.assetpack/
+.vscode/
+
