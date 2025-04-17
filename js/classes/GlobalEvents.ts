@@ -4,7 +4,7 @@ export class GlobalEvents {
     private static _instance: GlobalEvents;
 
     TeleportPlayer = new Signal<[position: number[]]>();
-    SwitchDimension = new Signal<[]>();
+    SwitchDimension = new Signal<[isLight: boolean]>();
     PlayerDied = new Signal<[]>();
 
     static get instance(): GlobalEvents {

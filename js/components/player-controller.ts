@@ -226,7 +226,7 @@ export class PlayerController extends Component {
         let moveX = 0;
 
         if (InputManager.getKeyDown(KeyType.Button2)) {
-            GlobalEvents.instance.SwitchDimension.dispatch();
+            //            GlobalEvents.instance.SwitchDimension.dispatch();
         }
 
         if (InputManager.getKeyDown(KeyType.Button1)) {

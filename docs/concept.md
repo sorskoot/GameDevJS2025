@@ -154,3 +154,85 @@ Pros:
 - Potentially Simpler: Resetting to a checkpoint might be simpler to implement than complex death states/animations.
 Cons:
 Can be frustrating if energy drains too fast or checkpoints are too far apart. Needs careful balancing.
+
+---
+
+### 1. **Energy as a Core Resource**
+
+- **Switching Cost:**
+  - Switching to Light drains Light energy; switching to Dark drains Dark energy.
+  - If you don’t have enough energy, you can’t switch—forcing players to plan ahead.
+
+- **Passive Drain/Recharge:**
+  - While in Light, Dark energy slowly recharges, and vice versa.
+  - Moving, jumping, or using abilities could increase the drain rate.
+
+---
+
+### 2. **Puzzle Difficulty Levers**
+
+- **Platform Placement:**
+  - Place platforms so that the optimal path requires careful timing of switches.
+  - Some platforms only exist in one dimension, requiring a switch mid-jump.
+
+- **Energy Management:**
+  - Force players to cross long stretches in one dimension, risking running out of energy.
+  - Place energy pickups or "safe zones" strategically, so players must detour or take risks.
+
+- **Hazards & Enemies:**
+  - Hazards that drain energy faster or block recharge.
+  - Enemies that can only be defeated in one dimension, requiring a switch and energy cost.
+
+- **Shifting Platforms:**
+  - Platforms that shift dimension after standing on them for a few seconds, forcing quick decisions.
+  - Some platforms could "lock" you in a dimension temporarily, draining energy until you escape.
+
+---
+
+### 3. **Game Systems to Build**
+
+- **Energy UI:**
+  - Clear bars for Light and Dark energy.
+  - Warnings when energy is low or switching is unavailable.
+
+- **Checkpoints:**
+  - Reset player to last "Red" platform or checkpoint if energy hits zero.
+
+- **Collectibles:**
+  - Crystals that restore both energies or temporarily allow free switching.
+
+- **Level Design Tools:**
+  - Editor support for marking which platforms exist in which dimension.
+  - Triggers for hazards, energy pickups, and shifting platforms.
+
+---
+
+### 4. **Making It a Game**
+
+- **Challenge:**
+  - Players must route-plan: which dimension, when to switch, how to conserve energy.
+  - Optional challenges: complete with minimal switches, collect all crystals, speedrun.
+
+- **Progression:**
+  - New abilities: double-jump, dash, or temporary invulnerability—each with energy costs.
+  - Increasingly complex platform layouts and energy management puzzles.
+
+- **Feedback:**
+  - Visual/audio cues for low energy, successful switches, and energy pickups.
+  - Effects for imbalance (e.g., screen distortion, sluggish controls).
+
+---
+
+### 5. **Extra Ideas**
+
+- **Imbalance Effects:**
+  - If one energy is much higher than the other, introduce negative effects (slower movement, unstable platforms).
+- **Timed Sections:**
+  - Areas where energy drains faster, forcing quick navigation.
+- **Energy Reversal Zones:**
+  - Special platforms or zones where energy rules are flipped.
+
+---
+
+**Summary:**
+To make the energy system central to your platforming puzzles, design levels that force players to think about when and where to switch, how to conserve and restore energy, and how to deal with hazards that interact with their energy. The tension between needing to switch and the risk of running out of energy is what will drive interesting decisions and challenge.
