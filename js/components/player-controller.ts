@@ -1,10 +1,18 @@
-import { AnimationComponent, Component, Object3D } from '@wonderlandengine/api';
+import {
+    AnimationComponent,
+    Collider,
+    CollisionComponent,
+    Component,
+    Object3D,
+} from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 import { InputManager, KeyType } from './input/InputManager.js';
 import { quat, vec3 } from 'gl-matrix';
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { RayHit } from '@wonderlandengine/api'; // Import RayHit
 import { Tags } from '@sorskoot/wonderland-components';
+import { LevelState } from '../classes/LevelState.js';
+import { PlayerState } from '../classes/PlayerState.js';
 
 const moveVec3 = vec3.create();
 const posVec3 = vec3.create();
@@ -15,6 +23,8 @@ const tempVec3 = vec3.create(); // Temporary vector for calculations
 const rayStartOffset = 0.2; // Offset for the two ground check rays
 const groundCheckDist = 0.2; // How far down to check for ground (adjust as needed)
 const groundSnapTolerance = 0.1; // Small tolerance for snapping
+
+const FLOOR_WALL_MASK = (1 << 1) + (1 << 2) + (1 << 3);
 
 enum playerState {
     init,
@@ -35,6 +45,9 @@ export class PlayerController extends Component {
     @property.float(9.81) // Gravity acceleration
     gravity = 9.81;
 
+    @property.object({ required: true })
+    collisionObject!: Object3D;
+
     // @property.animation()
     // idle: Animation;
 
@@ -51,19 +64,34 @@ export class PlayerController extends Component {
     // Gravity/Jump state
     private _isGrounded: boolean = false;
     private _verticalVelocity: number = 0; // Combined jump/fall velocity
+    private _collision: CollisionComponent;
 
     init() {}
 
     start() {
+        this._collision = this.collisionObject.getComponent(CollisionComponent);
         // this._animationComponent =
         //     this.animationRoot.getComponent(AnimationComponent)!;
-        GlobalEvents.instance.TeleportPlayer.add(this._onTeleportPlayer, this);
+        GlobalEvents.instance.teleportPlayer.add(this._onTeleportPlayer, this);
+        GlobalEvents.instance.playerDied.add(this._die, this); // Dispatch event for player death
         this._reset(); // Reset state on start
     }
 
     update(dt: number) {
         this._applyGravity(dt); // Apply gravity and vertical movement
         this._handleInput(dt);
+        this._checkCollisions();
+    }
+    private _checkCollisions() {
+        const overlaps = this._collision.queryOverlaps();
+        if (overlaps.length > 0) {
+            for (const overlap of overlaps) {
+                if (Tags.hasTag(overlap.object, 'target')) {
+                    // level Complete
+                    LevelState.instance.completeLevel();
+                }
+            }
+        }
     }
 
     private _checkGrounded(): boolean {
@@ -79,7 +107,7 @@ export class PlayerController extends Component {
         const hit1 = this.engine.scene.rayCast(
             tempVec3,
             downVec3,
-            255,
+            FLOOR_WALL_MASK,
             groundCheckDist + groundSnapTolerance // Check slightly below feet
         );
 
@@ -93,7 +121,7 @@ export class PlayerController extends Component {
         const hit2 = this.engine.scene.rayCast(
             tempVec3,
             downVec3,
-            255,
+            FLOOR_WALL_MASK,
             groundCheckDist + groundSnapTolerance // Check slightly below feet
         );
 
@@ -115,7 +143,7 @@ export class PlayerController extends Component {
         const hit1 = this.engine.scene.rayCast(
             tempVec3,
             downVec3,
-            255,
+            FLOOR_WALL_MASK,
             checkDist
         );
         if (hit1.hitCount > 0) return hit1;
@@ -130,7 +158,7 @@ export class PlayerController extends Component {
         const hit2 = this.engine.scene.rayCast(
             tempVec3,
             downVec3,
-            255,
+            FLOOR_WALL_MASK,
             checkDist
         );
         if (hit2.hitCount > 0) return hit2;
@@ -158,7 +186,7 @@ export class PlayerController extends Component {
                     const groundHit = this._getGroundHit();
                     if (groundHit && groundHit.hitCount > 0) {
                         if (Tags.hasTag(groundHit.objects[0], 'death')) {
-                            this._die();
+                            PlayerState.instance.die();
                             return;
                         }
 
@@ -190,7 +218,7 @@ export class PlayerController extends Component {
                 const groundHit = this._getGroundHit();
                 if (groundHit && groundHit.hitCount > 0) {
                     if (Tags.hasTag(groundHit.objects[0], 'death')) {
-                        this._die();
+                        PlayerState.instance.die();
                         return;
                     }
                     this.object.getPositionWorld(posVec3);
@@ -209,9 +237,6 @@ export class PlayerController extends Component {
         }
     }
     private _die() {
-        // Handle player death (e.g., respawn, reset position, etc.)
-        console.log('Player died! Implement respawn logic here.');
-        GlobalEvents.instance.PlayerDied.dispatch(); // Dispatch event for player death
         this._reset();
     }
 
@@ -226,6 +251,7 @@ export class PlayerController extends Component {
         let moveX = 0;
 
         if (InputManager.getKeyDown(KeyType.Button2)) {
+            LevelState.instance.switchDimension(); // Switch dimension on button press
             //            GlobalEvents.instance.SwitchDimension.dispatch();
         }
 
@@ -242,7 +268,7 @@ export class PlayerController extends Component {
             let f = this.engine.scene.rayCast(
                 [posVec3[0], posVec3[1] + 0.1, 0], // Check from mid-height
                 [-1, 0, 0],
-                255,
+                FLOOR_WALL_MASK,
                 0.25
             );
             if (f.hitCount > 0) {
@@ -255,7 +281,7 @@ export class PlayerController extends Component {
             let f = this.engine.scene.rayCast(
                 [posVec3[0], posVec3[1] + 0.1, 0], // Check from mid-height
                 [1, 0, 0],
-                255,
+                FLOOR_WALL_MASK,
                 0.25
             );
             if (f.hitCount > 0) {

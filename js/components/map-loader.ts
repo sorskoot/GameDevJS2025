@@ -4,6 +4,7 @@ import { TiledMap } from '../types/tiled-map.js'; // Import the interface
 import { vec3 } from 'gl-matrix'; // Import vec3
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { wlUtils } from '@sorskoot/wonderland-components';
+import { LevelState } from '../classes/LevelState.js';
 
 // Reusable vector for position calculations
 const tilePosition = vec3.create();
@@ -38,22 +39,22 @@ export class MapLoader extends Component {
             );
         }
 
-        setTimeout(() => {
-            this.loadMap('test')
-                .then(() => {
-                    console.log('Map loaded successfully!');
-                })
-                .catch((error) => {
-                    console.error('Error loading map:', error);
-                });
-        }, 2000);
+        //setTimeout(() => {
+        this.loadMap('test')
+            .then(() => {
+                console.log('Map loaded successfully!');
+            })
+            .catch((error) => {
+                console.error('Error loading map:', error);
+            });
+        //}, 2000);
 
-        GlobalEvents.instance.SwitchDimension.add(
+        GlobalEvents.instance.switchDimension.add(
             this._onSwitchDimension,
             this
         );
 
-        GlobalEvents.instance.PlayerDied.add(this._onPlayerDied, this);
+        GlobalEvents.instance.playerDied.add(this._onPlayerDied, this);
 
         this._isLight = true;
         this.engine.scene.clearColor = [0, 0, 0, 1];
@@ -62,7 +63,7 @@ export class MapLoader extends Component {
     private _onPlayerDied() {
         this._isLight = true;
         this._updateLightState();
-        GlobalEvents.instance.TeleportPlayer.dispatch(this._startPos);
+        GlobalEvents.instance.teleportPlayer.dispatch(this._startPos);
     }
 
     async loadMap(mapName: string): Promise<void> {
@@ -134,7 +135,7 @@ export class MapLoader extends Component {
                             ];
 
                             // Trigger teleport event
-                            GlobalEvents.instance.TeleportPlayer.dispatch(
+                            GlobalEvents.instance.teleportPlayer.dispatch(
                                 this._startPos
                             );
                         }
@@ -160,6 +161,7 @@ export class MapLoader extends Component {
 
         // Optionally hide the original template tile
         this.tile.active = false;
+        LevelState.instance.setMapLoaded();
     }
 
     _isLight: boolean = true;
