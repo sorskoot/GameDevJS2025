@@ -81,7 +81,7 @@ export class MapLoader extends Component {
             console.error('MapLoader: First layer is not a valid tile layer.');
             return;
         }
-
+        const mapHeight = data.height;
         const mapWidth = data.width;
         const tileWidth = data.tilewidth * TILE_SCALE;
         const tileHeight = data.tileheight * TILE_SCALE;
@@ -161,6 +161,62 @@ export class MapLoader extends Component {
                         }
                     }
                 }
+            }
+        }
+
+        // Calculate border positions and add tiles
+        const borderThickness = 6;
+
+        // Top and bottom borders
+        for (let y = 0; y < borderThickness; ++y) {
+            for (
+                let x = -borderThickness;
+                x < mapWidth + borderThickness;
+                ++x
+            ) {
+                // Top border
+                vec3.set(tilePosition, x * tileWidth, -y * tileHeight, 0);
+                const topTile = this.tile.clone(this.object);
+                topTile.resetPositionRotation();
+                topTile.setPositionWorld(tilePosition);
+
+                // Bottom border
+                vec3.set(
+                    tilePosition,
+                    x * tileWidth,
+                    -(mapHeight - 1 + borderThickness - y) * tileHeight,
+                    0
+                );
+                const bottomTile = this.tile.clone(this.object);
+                bottomTile.resetPositionRotation();
+                bottomTile.setPositionWorld(tilePosition);
+            }
+        }
+
+        // Left and right borders
+        for (let y = 0; y < mapHeight; ++y) {
+            for (let x = 0; x < borderThickness; ++x) {
+                // Left border
+                vec3.set(
+                    tilePosition,
+                    -(borderThickness - x) * tileWidth,
+                    -y * tileHeight,
+                    0
+                );
+                const leftTile = this.tile.clone(this.object);
+                leftTile.resetPositionRotation();
+                leftTile.setPositionWorld(tilePosition);
+
+                // Right border
+                vec3.set(
+                    tilePosition,
+                    (mapWidth + x) * tileWidth,
+                    -y * tileHeight,
+                    0
+                );
+                const rightTile = this.tile.clone(this.object);
+                rightTile.resetPositionRotation();
+                rightTile.setPositionWorld(tilePosition);
             }
         }
 
