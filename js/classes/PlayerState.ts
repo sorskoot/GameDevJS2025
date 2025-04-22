@@ -41,7 +41,6 @@ export class PlayerState {
         if (this._completed) {
             return;
         }
-        return;
         if (this._inLight) {
             const newLight = Math.min(
                 this._maxEnergy,
