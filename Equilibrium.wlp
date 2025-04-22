@@ -23,7 +23,8 @@
                     "type": "player-controller",
                     "player-controller": {
                         "speed": 5.0,
-                        "collisionObject": "87"
+                        "collisionObject": "87",
+                        "debugObject": "89"
                     }
                 }
             ]
@@ -411,7 +412,7 @@
                                 0.5
                             ]
                         },
-                        "groups": 6
+                        "groups": 15
                     }
                 }
             ],
@@ -447,7 +448,7 @@
                                 0.5
                             ]
                         },
-                        "groups": 4
+                        "groups": 15
                     }
                 }
             ],
@@ -483,7 +484,7 @@
                                 0.5
                             ]
                         },
-                        "groups": 2
+                        "groups": 15
                     }
                 }
             ],
@@ -845,6 +846,23 @@
                 0.0,
                 0.0,
                 1.0
+            ]
+        },
+        "89": {
+            "name": "Mesh.000",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "3",
+                        "material": "74"
+                    }
+                }
+            ],
+            "scaling": [
+                0.1,
+                0.1,
+                0.1
             ]
         }
     },

@@ -20,6 +20,7 @@ const rotQuat = quat.create();
 const quatIdentity = quat.identity(quat.create());
 const downVec3 = vec3.fromValues(0, -1, 0); // Constant for down direction
 const tempVec3 = vec3.create(); // Temporary vector for calculations
+const tempVec3_2 = vec3.create(); // Temporary vector for calculations
 const rayStartOffset = 0.2; // Offset for the two ground check rays
 const groundCheckDist = 0.2; // How far down to check for ground (adjust as needed)
 const groundSnapTolerance = 0.1; // Small tolerance for snapping
@@ -48,6 +49,9 @@ export class PlayerController extends Component {
     @property.object({ required: true })
     collisionObject!: Object3D;
 
+    @property.object({ required: true })
+    debugObject!: Object3D;
+
     // @property.animation()
     // idle: Animation;
 
@@ -65,6 +69,7 @@ export class PlayerController extends Component {
     private _isGrounded: boolean = false;
     private _verticalVelocity: number = 0; // Combined jump/fall velocity
     private _collision: CollisionComponent;
+    private _completed: boolean;
 
     init() {}
 
@@ -74,10 +79,18 @@ export class PlayerController extends Component {
         //     this.animationRoot.getComponent(AnimationComponent)!;
         GlobalEvents.instance.teleportPlayer.add(this._onTeleportPlayer, this);
         GlobalEvents.instance.playerDied.add(this._die, this); // Dispatch event for player death
+        GlobalEvents.instance.levelCompleted.add(this._levelCompleted, this); // Dispatch event for player death
         this._reset(); // Reset state on start
+    }
+    private _levelCompleted() {
+        this._completed = true;
     }
 
     update(dt: number) {
+        if (this._completed) {
+            return; // Skip input handling if level is completed
+        }
+
         this._applyGravity(dt); // Apply gravity and vertical movement
         this._handleInput(dt);
         this._checkCollisions();
@@ -104,6 +117,7 @@ export class PlayerController extends Component {
             posVec3[1] + groundSnapTolerance, // Start slightly above feet
             posVec3[2]
         );
+
         const hit1 = this.engine.scene.rayCast(
             tempVec3,
             downVec3,
@@ -111,22 +125,25 @@ export class PlayerController extends Component {
             groundCheckDist + groundSnapTolerance // Check slightly below feet
         );
 
+        const leftHit = hit1.hitCount > 0;
+
         // Raycast 2 (slightly right)
         vec3.set(
-            tempVec3,
+            tempVec3_2,
             posVec3[0] + rayStartOffset,
             posVec3[1] + groundSnapTolerance, // Start slightly above feet
             posVec3[2]
         );
+
         const hit2 = this.engine.scene.rayCast(
-            tempVec3,
+            tempVec3_2,
             downVec3,
             FLOOR_WALL_MASK,
             groundCheckDist + groundSnapTolerance // Check slightly below feet
         );
-
+        const rightHit = hit2.hitCount > 0;
         // Grounded if either ray hits something
-        return hit1.hitCount > 0 || hit2.hitCount > 0;
+        return leftHit || rightHit;
     }
 
     private _getGroundHit(): RayHit | null {
@@ -150,13 +167,13 @@ export class PlayerController extends Component {
 
         // Raycast 2 (slightly right)
         vec3.set(
-            tempVec3,
+            tempVec3_2,
             posVec3[0] + rayStartOffset,
             posVec3[1] + groundSnapTolerance,
             posVec3[2]
         );
         const hit2 = this.engine.scene.rayCast(
-            tempVec3,
+            tempVec3_2,
             downVec3,
             FLOOR_WALL_MASK,
             checkDist
@@ -242,6 +259,7 @@ export class PlayerController extends Component {
 
     private _reset() {
         // Store initial Y position (less critical now, but good for reference)
+        this._completed = false;
         this.object.getPositionWorld(posVec3);
         this._isGrounded = this._checkGrounded(); // Initial ground check
         this._verticalVelocity = 0; // Ensure starting with no vertical movement

@@ -2,6 +2,7 @@ import { GlobalEvents } from './GlobalEvents.js';
 
 export class PlayerState {
     private static _instance: PlayerState;
+    private _completed: boolean;
     static get instance(): PlayerState {
         if (!PlayerState._instance) {
             PlayerState._instance = new PlayerState();
@@ -22,6 +23,7 @@ export class PlayerState {
             this._onSwitchDimension,
             this
         );
+        GlobalEvents.instance.levelCompleted.add(this._levelCompleted, this);
     }
 
     private _onSwitchDimension = (isLight: boolean) => {
@@ -35,6 +37,11 @@ export class PlayerState {
 
     update(dt: number): void {
         let changed = false;
+
+        if (this._completed) {
+            return;
+        }
+        return;
         if (this._inLight) {
             const newLight = Math.min(
                 this._maxEnergy,
@@ -108,10 +115,15 @@ export class PlayerState {
     }
 
     private _reset() {
+        this._completed = false;
         this._maxEnergy = 100;
         this._lightEnergy = this._maxEnergy;
         this._darkEnergy = this._maxEnergy;
         this._drainRate = 10;
         this._inLight = true;
+    }
+
+    private _levelCompleted() {
+        this._completed = true;
     }
 }
