@@ -1,0 +1,44 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "level2.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2.242395833333333,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 71.57523110512378,
+                "y": 215.17164491104197
+            }
+        },
+        "test.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.7594791666666665,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 128.16292700254576,
+                "y": 240.1278787519981
+            }
+        }
+    },
+    "last.exportedFilePath": "E:/Dev/GameDevJS2025/static/maps",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+    ],
+    "project": "levels.tiled-project",
+    "recentFiles": [
+    ]
+}

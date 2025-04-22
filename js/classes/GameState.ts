@@ -1,3 +1,5 @@
+import { GlobalEvents } from './GlobalEvents.js';
+
 export class GameState {
     private static _instance: GameState;
 
@@ -17,6 +19,9 @@ export class GameState {
         }
         return GameState._instance;
     }
+    private _levels: string[] = ['test', 'level2', 'level2', 'level3']; // Example level IDs
+    private _currentLevelIndex: number = 0;
+    private _inProgress: boolean = false; // Flag to indicate if the game is in progress
 
     private constructor() {
         this._unlockedLevels = new Set<string>();
@@ -35,6 +40,16 @@ export class GameState {
      */
     get settings(): Record<string, unknown> {
         return this._settings;
+    }
+    /**
+     * Get the current level ID.
+     */
+    get currentLevelId(): string {
+        return this._levels[this._currentLevelIndex];
+    }
+
+    get inProgress(): boolean {
+        return this._inProgress;
     }
 
     /**
@@ -71,5 +86,22 @@ export class GameState {
      */
     updateSetting(key: string, value: unknown): void {
         this._settings[key] = value;
+    }
+
+    nextLevel(): boolean {
+        if (this._currentLevelIndex < this._levels.length - 1) {
+            this._currentLevelIndex++;
+            return true;
+        }
+        return false;
+    }
+
+    resetProgress(): void {
+        this._currentLevelIndex = 0;
+    }
+
+    startGame() {
+        GlobalEvents.instance.startGame.dispatch();
+        this._inProgress = true;
     }
 }

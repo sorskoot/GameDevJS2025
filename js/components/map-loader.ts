@@ -31,6 +31,20 @@ export class MapLoader extends Component {
     private _blackBlocks: Object3D[] = []; // Array to store black blocks
     private _startPos: number[];
 
+    private static _instance: MapLoader;
+    static get instance(): MapLoader {
+        return MapLoader._instance;
+    }
+
+    init() {
+        if (MapLoader._instance) {
+            console.error(
+                'There can only be one instance of MapLoader Component'
+            );
+        }
+        MapLoader._instance = this;
+    }
+
     start() {
         // Validate required properties
         if (!this.tile || !this.tileWhite || !this.tileBlack) {
@@ -38,16 +52,6 @@ export class MapLoader extends Component {
                 'MapLoader: Missing required property "tile", "tileWhite", or "tileBlack".'
             );
         }
-
-        //setTimeout(() => {
-        this.loadMap('test')
-            .then(() => {
-                console.log('Map loaded successfully!');
-            })
-            .catch((error) => {
-                console.error('Error loading map:', error);
-            });
-        //}, 2000);
 
         GlobalEvents.instance.switchDimension.add(
             this._onSwitchDimension,
@@ -67,6 +71,7 @@ export class MapLoader extends Component {
     }
 
     async loadMap(mapName: string): Promise<void> {
+        this._reset();
         const rawData = await fetch(`maps/${mapName}.json`);
         const data: TiledMap = await rawData.json();
 
@@ -188,5 +193,15 @@ export class MapLoader extends Component {
                 wlUtils.setActive(block, false);
             });
         }
+    }
+
+    private _reset() {
+        if (this.object.children.length > 0) {
+            this.object.children.forEach((child) => {
+                child.destroy();
+            });
+        }
+        this._blackBlocks = [];
+        this._whiteBlocks = [];
     }
 }

@@ -1,3 +1,4 @@
+import { GameState } from './GameState.js';
 import { GlobalEvents } from './GlobalEvents.js';
 
 export class PlayerState {
@@ -18,7 +19,7 @@ export class PlayerState {
     private _energyListeners: Array<() => void> = [];
 
     private constructor() {
-        this._reset();
+        this.reset();
         GlobalEvents.instance.switchDimension.add(
             this._onSwitchDimension,
             this
@@ -30,15 +31,23 @@ export class PlayerState {
         this._inLight = isLight;
     };
 
+    reset() {
+        this._completed = false;
+        this._maxEnergy = 100;
+        this._lightEnergy = this._maxEnergy;
+        this._darkEnergy = this._maxEnergy;
+        this._drainRate = 10;
+        this._inLight = true;
+    }
     die() {
-        this._reset();
+        this.reset();
         GlobalEvents.instance.playerDied.dispatch();
     }
 
     update(dt: number): void {
         let changed = false;
 
-        if (this._completed) {
+        if (this._completed || !GameState.instance.inProgress) {
             return;
         }
         if (this._inLight) {
@@ -111,15 +120,6 @@ export class PlayerState {
 
     public get maxEnergy(): number {
         return this._maxEnergy;
-    }
-
-    private _reset() {
-        this._completed = false;
-        this._maxEnergy = 100;
-        this._lightEnergy = this._maxEnergy;
-        this._darkEnergy = this._maxEnergy;
-        this._drainRate = 10;
-        this._inLight = true;
     }
 
     private _levelCompleted() {

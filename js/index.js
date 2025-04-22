@@ -11,7 +11,7 @@
 /* wle:auto-imports:start */
 import {KeyboardController as KeyboardController1} from './components/input/keyboard-controller.js';
 import {Tags} from '@sorskoot/wonderland-components';
-import {GameRoot} from './components/game-controller.js';
+import {GameRoot} from './components/game-root.js';
 import {MapLoader} from './components/map-loader.js';
 import {PlayerController} from './components/player-controller.js';
 import {PlayerFollow} from './components/player-follow.js';

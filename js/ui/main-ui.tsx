@@ -12,6 +12,8 @@ import {
 } from '@wonderlandengine/react-ui/components';
 import React, { useEffect, useState } from 'react';
 import { PlayerState } from '../classes/PlayerState.js';
+import { MainPanel } from './main-panel.js';
+import { GlobalEvents } from '../classes/GlobalEvents.js';
 
 const App = (props: { comp: MainUI }) => {
     const comp = props.comp;
@@ -23,6 +25,19 @@ const App = (props: { comp: MainUI }) => {
     const [darkEnergy, setDarkEnergy] = useState(
         PlayerState.instance.darkEnergy / PlayerState.instance.maxEnergy
     );
+    const [menuVisible, setMenuVisible] = useState(true);
+
+    useEffect(() => {
+        const startGame = () => {
+            setMenuVisible(false);
+        };
+
+        GlobalEvents.instance.startGame.add(startGame, comp);
+
+        return () => {
+            GlobalEvents.instance.startGame.remove(startGame);
+        };
+    }, []);
 
     useEffect(() => {
         const update = () => {
@@ -49,41 +64,46 @@ const App = (props: { comp: MainUI }) => {
                     value={GuiTexturesManager.instance}
                 > */}
                 <Container width="100%" height="100%">
-                    <Column margin={50} gap={10}>
-                        <Row gap={10} alignItems={Align.Center}>
-                            <Text
-                                width={100}
-                                fontSize={22}
-                                textAlign="right"
-                                text="Light"
-                            ></Text>
-                            <ProgressBar
-                                value={lightEnergy}
-                                width={400}
-                                height={40}
-                                rounding={0}
-                                bgColor={'#440044'}
-                                fgColor={'#FF00FF'}
-                            ></ProgressBar>
-                        </Row>
-                        <Row gap={10} alignItems={Align.Center}>
-                            <Text
-                                width={100}
-                                fontSize={22}
-                                textAlign="right"
-                                text="Dark"
-                            ></Text>
-                            <ProgressBar
-                                value={darkEnergy}
-                                width={400}
-                                height={40}
-                                rounding={0}
-                                bgColor={'#440044'}
-                                fgColor={'#FF00FF'}
-                            ></ProgressBar>
-                        </Row>
-                    </Column>
+                    {menuVisible ? (
+                        <MainPanel></MainPanel>
+                    ) : (
+                        <Column margin={50} gap={10}>
+                            <Row gap={10} alignItems={Align.Center}>
+                                <Text
+                                    width={100}
+                                    fontSize={22}
+                                    textAlign="right"
+                                    text="Light"
+                                ></Text>
+                                <ProgressBar
+                                    value={lightEnergy}
+                                    width={400}
+                                    height={40}
+                                    rounding={0}
+                                    bgColor={'#440044'}
+                                    fgColor={'#FF00FF'}
+                                ></ProgressBar>
+                            </Row>
+                            <Row gap={10} alignItems={Align.Center}>
+                                <Text
+                                    width={100}
+                                    fontSize={22}
+                                    textAlign="right"
+                                    text="Dark"
+                                ></Text>
+                                <ProgressBar
+                                    value={darkEnergy}
+                                    width={400}
+                                    height={40}
+                                    rounding={0}
+                                    bgColor={'#440044'}
+                                    fgColor={'#FF00FF'}
+                                ></ProgressBar>
+                            </Row>
+                        </Column>
+                    )}
                 </Container>
+
                 {/* </GuiMaterialContext.Provider> */}
             </ThemeContext.Provider>
         </MaterialContext.Provider>

@@ -13,6 +13,7 @@ import { RayHit } from '@wonderlandengine/api'; // Import RayHit
 import { Tags } from '@sorskoot/wonderland-components';
 import { LevelState } from '../classes/LevelState.js';
 import { PlayerState } from '../classes/PlayerState.js';
+import { GameState } from '../classes/GameState.js';
 
 const moveVec3 = vec3.create();
 const posVec3 = vec3.create();
@@ -49,9 +50,6 @@ export class PlayerController extends Component {
     @property.object({ required: true })
     collisionObject!: Object3D;
 
-    @property.object({ required: true })
-    debugObject!: Object3D;
-
     // @property.animation()
     // idle: Animation;
 
@@ -82,12 +80,13 @@ export class PlayerController extends Component {
         GlobalEvents.instance.levelCompleted.add(this._levelCompleted, this); // Dispatch event for player death
         this._reset(); // Reset state on start
     }
+
     private _levelCompleted() {
-        this._completed = true;
+        //this._completed = true;
     }
 
     update(dt: number) {
-        if (this._completed) {
+        if (this._completed || !GameState.instance.inProgress) {
             return; // Skip input handling if level is completed
         }
 

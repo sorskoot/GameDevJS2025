@@ -8,6 +8,7 @@ export class GlobalEvents {
     playerDied = new Signal<[]>();
     checkpointReached = new Signal<[position: number[]]>();
     levelCompleted = new Signal<[]>();
+    startGame = new Signal<[]>();
 
     static get instance(): GlobalEvents {
         if (!GlobalEvents._instance) {

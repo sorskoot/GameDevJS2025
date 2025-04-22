@@ -4,6 +4,7 @@ import { GameState } from '../classes/GameState.js';
 import { LevelState } from '../classes/LevelState.js';
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { PlayerState } from '../classes/PlayerState.js';
+import { MapLoader } from './map-loader.js';
 
 export class GameRoot extends Component {
     static TypeName = 'game-root';
@@ -24,14 +25,6 @@ export class GameRoot extends Component {
     private _gameState: GameState;
     private _levelState: LevelState;
     private _playerState: PlayerState;
-    // Example: event handler arrow functions
-    private _onLevelComplete = () => {
-        this._gameState.save();
-
-        this.loadNextLevel();
-    };
-
-    private _onCheckpointReached = () => {};
 
     init() {
         if (GameRoot._instance) {
@@ -43,15 +36,13 @@ export class GameRoot extends Component {
     }
 
     onActivate() {
-        // Example: Add event listeners (uncomment when event system is available)
-        // GlobalEvents.on('levelComplete', this._onLevelComplete);
-        // GlobalEvents.on('checkpoint', this._onCheckpointReached);
+        GlobalEvents.instance.levelCompleted.add(this._onLevelComplete, this);
+        GlobalEvents.instance.startGame.add(this._startGame, this);
     }
 
     onDeactivate() {
-        // Example: Remove event listeners
-        // GlobalEvents.off('levelComplete', this._onLevelComplete);
-        // GlobalEvents.off('checkpoint', this._onCheckpointReached);
+        GlobalEvents.instance.levelCompleted.remove(this._onLevelComplete);
+        GlobalEvents.instance.startGame.remove(this._startGame);
     }
 
     start() {
@@ -76,9 +67,29 @@ export class GameRoot extends Component {
         // this._gameState.update(dt);
         this._playerState.update(dt);
     }
+    private _onLevelComplete = () => {
+        this._gameState.save();
 
-    // Example: method to load next level
-    private loadNextLevel() {
-        // Implement level loading logic
+        this.loadNextLevel();
+    };
+    private _startGame = () => {
+        this.loadLevel(this._gameState.currentLevelId).then(() => {
+            this._levelState.reset();
+            this._playerState.reset();
+        });
+    };
+    // ...existing code...
+    private async loadLevel(levelId: string) {
+        await MapLoader.instance.loadMap(levelId);
+        this._levelState.reset();
+        this._playerState.reset();
+    }
+
+    private async loadNextLevel() {
+        if (this._gameState.nextLevel()) {
+            await this.loadLevel(this._gameState.currentLevelId);
+        } else {
+            // Handle end of game (show credits, etc.)
+        }
     }
 }
