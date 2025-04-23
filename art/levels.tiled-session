@@ -20,11 +20,11 @@
             }
         },
         "level3.tmx": {
-            "scale": 4,
-            "selectedLayer": 1,
+            "scale": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 105.625,
-                "y": 214.375
+                "x": 248,
+                "y": 270.25
             }
         },
         "test.tmx": {
@@ -52,8 +52,8 @@
     ],
     "project": "levels.tiled-project",
     "recentFiles": [
-        "level2.tmx",
         "level3.tmx",
+        "level2.tmx",
         "tileset.tsx",
         "test.tmx"
     ]
