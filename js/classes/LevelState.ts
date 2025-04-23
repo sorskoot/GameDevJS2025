@@ -29,6 +29,7 @@ export class LevelState extends NotifyPropertyChanged {
         super();
         this._isLight = true;
         this._checkpoint = null;
+        GlobalEvents.instance.levelReset.add(this._reset, this);
     }
 
     /**
@@ -56,7 +57,7 @@ export class LevelState extends NotifyPropertyChanged {
 
     completeLevel(): void {
         GlobalEvents.instance.levelCompleted.dispatch();
-        this.reset();
+        this._reset();
     }
 
     /**
@@ -71,7 +72,7 @@ export class LevelState extends NotifyPropertyChanged {
     /**
      * Reset level state (for new level or restart).
      */
-    reset(): void {
+    private _reset(): void {
         this._isLight = true;
         this._checkpoint = null;
         this.notifyPropertyChanged('isLight');

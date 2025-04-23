@@ -16,6 +16,7 @@ import {MapLoader} from './components/map-loader.js';
 import {PlayerController} from './components/player-controller.js';
 import {PlayerFollow} from './components/player-follow.js';
 import {TargetAnimator} from './components/target-animator.js';
+import {TutorialText} from './components/tutorial-text.js';
 import {MainUI} from './ui/main-ui.tsx';
 /* wle:auto-imports:end */
 
@@ -28,6 +29,7 @@ engine.registerComponent(MapLoader);
 engine.registerComponent(PlayerController);
 engine.registerComponent(PlayerFollow);
 engine.registerComponent(TargetAnimator);
+engine.registerComponent(TutorialText);
 engine.registerComponent(MainUI);
 /* wle:auto-register:end */
 }

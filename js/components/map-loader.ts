@@ -1,10 +1,11 @@
-import { Component, Object3D } from '@wonderlandengine/api';
+import { Component, Object3D, TextComponent } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 import { TiledMap } from '../types/tiled-map.js'; // Import the interface
 import { vec3 } from 'gl-matrix'; // Import vec3
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { wlUtils } from '@sorskoot/wonderland-components';
 import { LevelState } from '../classes/LevelState.js';
+import { TutorialText } from './tutorial-text.js';
 
 // Reusable vector for position calculations
 const tilePosition = vec3.create();
@@ -26,6 +27,9 @@ export class MapLoader extends Component {
 
     @property.object({ required: true })
     target!: Object3D;
+
+    @property.object({ required: true })
+    tutorialTextObject!: Object3D;
 
     private _whiteBlocks: Object3D[] = []; // Array to store white blocks
     private _blackBlocks: Object3D[] = []; // Array to store black blocks
@@ -59,6 +63,7 @@ export class MapLoader extends Component {
         );
 
         GlobalEvents.instance.playerDied.add(this._onPlayerDied, this);
+        GlobalEvents.instance.levelReset.add(this._levelReset, this);
 
         this._isLight = true;
         this.engine.scene.clearColor = [0, 0, 0, 1];
@@ -127,7 +132,20 @@ export class MapLoader extends Component {
         for (const layer of data.layers) {
             if (layer.type === 'objectgroup' && layer.objects) {
                 for (const obj of layer.objects) {
-                    if (obj.name && obj.name.toLowerCase().includes('start')) {
+                    if (obj.type == 'Text') {
+                        const text = this.tutorialTextObject.clone(this.object);
+                        const textComponent = text.getComponent(TutorialText);
+                        textComponent.setText(obj.name);
+                        text.resetPositionRotation();
+                        text.setPositionWorld([
+                            (obj.x - 8) * TILE_SCALE,
+                            -(obj.y - 16) * TILE_SCALE,
+                            0,
+                        ]);
+                    } else if (
+                        obj.name &&
+                        obj.name.toLowerCase().includes('start')
+                    ) {
                         if (
                             typeof obj.x === 'number' &&
                             typeof obj.y === 'number'
@@ -152,7 +170,7 @@ export class MapLoader extends Component {
                         ) {
                             // Convert from Tiled coordinates to world coordinates
                             const pos = [
-                                obj.x * TILE_SCALE,
+                                (obj.x - 16) * TILE_SCALE,
                                 -(obj.y - 16) * TILE_SCALE,
                                 0,
                             ];
@@ -228,6 +246,11 @@ export class MapLoader extends Component {
     _isLight: boolean = true;
     private _onSwitchDimension() {
         this._isLight = !this._isLight;
+        this._updateLightState();
+    }
+
+    private _levelReset() {
+        this._isLight = true;
         this._updateLightState();
     }
 

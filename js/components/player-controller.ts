@@ -67,22 +67,14 @@ export class PlayerController extends Component {
     private _isGrounded: boolean = false;
     private _verticalVelocity: number = 0; // Combined jump/fall velocity
     private _collision: CollisionComponent;
-    private _completed: boolean;
-
-    init() {}
+    private _completed: boolean = false;
 
     start() {
         this._collision = this.collisionObject.getComponent(CollisionComponent);
-        // this._animationComponent =
-        //     this.animationRoot.getComponent(AnimationComponent)!;
         GlobalEvents.instance.teleportPlayer.add(this._onTeleportPlayer, this);
         GlobalEvents.instance.playerDied.add(this._die, this); // Dispatch event for player death
-        GlobalEvents.instance.levelCompleted.add(this._levelCompleted, this); // Dispatch event for player death
+        GlobalEvents.instance.levelReset.add(this._reset, this); // Dispatch event for player death
         this._reset(); // Reset state on start
-    }
-
-    private _levelCompleted() {
-        //this._completed = true;
     }
 
     update(dt: number) {
@@ -100,6 +92,7 @@ export class PlayerController extends Component {
             for (const overlap of overlaps) {
                 if (Tags.hasTag(overlap.object, 'target')) {
                     // level Complete
+                    this._completed = true;
                     LevelState.instance.completeLevel();
                 }
             }

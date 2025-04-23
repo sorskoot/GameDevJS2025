@@ -19,19 +19,20 @@ export class PlayerState {
     private _energyListeners: Array<() => void> = [];
 
     private constructor() {
-        this.reset();
+        this._reset();
         GlobalEvents.instance.switchDimension.add(
             this._onSwitchDimension,
             this
         );
         GlobalEvents.instance.levelCompleted.add(this._levelCompleted, this);
+        GlobalEvents.instance.levelReset.add(this._reset, this);
     }
 
     private _onSwitchDimension = (isLight: boolean) => {
         this._inLight = isLight;
     };
 
-    reset() {
+    private _reset() {
         this._completed = false;
         this._maxEnergy = 100;
         this._lightEnergy = this._maxEnergy;
@@ -39,8 +40,9 @@ export class PlayerState {
         this._drainRate = 10;
         this._inLight = true;
     }
+
     die() {
-        this.reset();
+        this._reset();
         GlobalEvents.instance.playerDied.dispatch();
     }
 

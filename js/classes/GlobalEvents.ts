@@ -7,8 +7,11 @@ export class GlobalEvents {
     switchDimension = new Signal<[isLight: boolean]>();
     playerDied = new Signal<[]>();
     checkpointReached = new Signal<[position: number[]]>();
-    levelCompleted = new Signal<[]>();
+
     startGame = new Signal<[]>();
+
+    levelCompleted = new Signal<[]>();
+    levelReset = new Signal<[]>();
 
     static get instance(): GlobalEvents {
         if (!GlobalEvents._instance) {

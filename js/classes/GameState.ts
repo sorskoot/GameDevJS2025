@@ -19,13 +19,16 @@ export class GameState {
         }
         return GameState._instance;
     }
-    private _levels: string[] = ['test', 'level2', 'level2', 'level3']; // Example level IDs
+    //'test',
+    private _levels: string[] = ['level1', 'level2', 'level3']; // Example level IDs
     private _currentLevelIndex: number = 0;
     private _inProgress: boolean = false; // Flag to indicate if the game is in progress
 
     private constructor() {
         this._unlockedLevels = new Set<string>();
         this._settings = {};
+
+        GlobalEvents.instance.levelReset.add(this._resetProgress, this);
     }
 
     /**
@@ -102,6 +105,10 @@ export class GameState {
 
     startGame() {
         GlobalEvents.instance.startGame.dispatch();
+        this._resetProgress();
+    }
+
+    private _resetProgress() {
         this._inProgress = true;
     }
 }

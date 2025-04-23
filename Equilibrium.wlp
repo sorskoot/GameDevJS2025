@@ -186,7 +186,9 @@
                         "tileWhite": "17",
                         "tileBlack": "19",
                         "tileRed": "68",
-                        "target": "82"
+                        "target": "82",
+                        "TutorialTextObject": "91",
+                        "tutorialTextObject": "91"
                     }
                 }
             ]
@@ -768,6 +770,66 @@
                     }
                 }
             ]
+        },
+        "91": {
+            "name": "Text",
+            "parent": "90",
+            "components": [
+                {
+                    "type": "tutorial-text",
+                    "tutorial-text": {
+                        "darkMaterial": "99",
+                        "lightMaterial": "92",
+                        "textObject": "94"
+                    }
+                }
+            ],
+            "translation": [
+                -1.9999998,
+                -98.4999923,
+                -1.4999997
+            ],
+            "scaling": [
+                0.9999995,
+                1.0,
+                0.9999995
+            ]
+        },
+        "93": {
+            "name": "offset",
+            "parent": "91",
+            "translation": [
+                -2.181681679758185e-8,
+                0.0,
+                -3.19840040674535e-7
+            ],
+            "scaling": [
+                0.9999998,
+                1.0,
+                0.9999998
+            ]
+        },
+        "94": {
+            "name": "Text",
+            "parent": "93",
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "alignment": "center",
+                        "text": "A",
+                        "material": "92",
+                        "characterSpacing": -0.0399999,
+                        "effect": "none",
+                        "justified": false
+                    }
+                }
+            ],
+            "scaling": [
+                3.0,
+                3.0,
+                3.0
+            ]
         }
     },
     "meshes": {
@@ -833,8 +895,21 @@
                 "file": "default"
             },
             "Text": {
-                "font": "1"
-            }
+                "font": "95",
+                "effectColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "name": "UI Text Material"
         },
         "1": {
             "name": "White",
@@ -1124,6 +1199,50 @@
                 "name": "metal",
                 "file": "assets\\models\\spikesLarge.glb"
             }
+        },
+        "92": {
+            "link": {
+                "name": "DefaultFontMaterial",
+                "file": "default"
+            },
+            "Text": {
+                "font": "95",
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "effectColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "name": "Light Text Material"
+        },
+        "99": {
+            "link": {
+                "name": "DefaultFontMaterial",
+                "file": "default"
+            },
+            "Text": {
+                "font": "95",
+                "effectColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "name": "Dark Text Material"
         }
     },
     "shaders": {
@@ -1510,7 +1629,8 @@
                     "js/",
                     "js/components",
                     "js/components/input",
-                    "js/ui"
+                    "js/ui",
+                    "static/maps"
                 ]
             },
             "libraryPaths": [
@@ -1696,6 +1816,20 @@
                 "name": "DejaVuSans.ttf",
                 "file": "default"
             }
+        },
+        "95": {
+            "link": {
+                "name": "font_0",
+                "file": "assets\\fonts\\GlacialIndifference-Bold.otf"
+            },
+            "outline": false,
+            "outlineSize": 0.0299999
+        },
+        "97": {
+            "link": {
+                "name": "font_0",
+                "file": "assets\\fonts\\GlacialIndifference-Regular.otf"
+            }
         }
     },
     "languages": {},
@@ -1718,6 +1852,14 @@
             "fileName": "assets/models/spikesLarge.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
+        },
+        "96": {
+            "fileName": "assets/fonts/GlacialIndifference-Bold.otf",
+            "importerName": ""
+        },
+        "98": {
+            "fileName": "assets/fonts/GlacialIndifference-Regular.otf",
+            "importerName": ""
         }
     },
     "morphTargets": {},

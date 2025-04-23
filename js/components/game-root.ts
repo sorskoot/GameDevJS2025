@@ -73,16 +73,14 @@ export class GameRoot extends Component {
         this.loadNextLevel();
     };
     private _startGame = () => {
-        this.loadLevel(this._gameState.currentLevelId).then(() => {
-            this._levelState.reset();
-            this._playerState.reset();
-        });
+        this.loadLevel(this._gameState.currentLevelId);
     };
     // ...existing code...
     private async loadLevel(levelId: string) {
         await MapLoader.instance.loadMap(levelId);
-        this._levelState.reset();
-        this._playerState.reset();
+        GlobalEvents.instance.levelReset.dispatch();
+        // this._levelState.reset();
+        // this._playerState.reset();
     }
 
     private async loadNextLevel() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="6">
  <editorsettings>
-  <export target="../static/maps/level2.json" format="json"/>
+  <export target="../static/maps/level1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
@@ -23,19 +23,22 @@
 4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,
 4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,
 4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,
-4,4,4,4,4,4,4,4,4,4,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" name="Start" x="103.907" y="238.138">
+  <object id="1" name="Start" x="137.353" y="224.314">
    <point/>
   </object>
   <object id="2" name="End" x="233.521" y="271.711">
    <point/>
   </object>
-  <object id="5" name="use 'space' to jump the gaps" type="Text" x="167.378" y="252.487">
+  <object id="3" name="Use A/D or Arrows to move" type="Text" x="96" y="240">
+   <point/>
+  </object>
+  <object id="5" name="grab the crystal before the energy runs out" type="Text" x="233.379" y="240">
    <point/>
   </object>
  </objectgroup>
