@@ -65,6 +65,18 @@
                  "width":0,
                  "x":352,
                  "y":224
+                }, 
+                {
+                 "height":0,
+                 "id":6,
+                 "name":"now switch while jumping",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Text",
+                 "visible":true,
+                 "width":0,
+                 "x":255.718726551613,
+                 "y":251.602529745953
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -73,7 +85,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":6,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

@@ -7,6 +7,8 @@ export enum Sounds {
     Land,
     LevelComplete,
     Switch,
+    Alarm,
+    Button,
 }
 
 const folder = 'sfx/';
@@ -17,6 +19,8 @@ const audioFiles: [string | string[], Sounds][] = [
     [folder + 'land.wav', Sounds.Land],
     [folder + 'levelcomplete.wav', Sounds.LevelComplete],
     [folder + 'switch.wav', Sounds.Switch],
+    [folder + 'alarm.wav', Sounds.Alarm],
+    [folder + 'button.wav', Sounds.Button],
 ];
 
 export class AudioManager {

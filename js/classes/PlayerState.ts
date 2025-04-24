@@ -1,3 +1,4 @@
+import { AudioManager, Sounds } from './AudioManager.js';
 import { GameState } from './GameState.js';
 import { GlobalEvents } from './GlobalEvents.js';
 
@@ -30,6 +31,9 @@ export class PlayerState {
 
     private _onSwitchDimension = (isLight: boolean) => {
         this._inLight = isLight;
+        // Reset alarm flags when switching dimensions
+        this._playedAlarmLight = false;
+        this._playedAlarmDark = false;
     };
 
     private _reset() {
@@ -42,9 +46,13 @@ export class PlayerState {
     }
 
     die() {
+        AudioManager.instance.playSound(Sounds.Die);
         this._reset();
         GlobalEvents.instance.playerDied.dispatch();
     }
+
+    private _playedAlarmLight = false;
+    private _playedAlarmDark = false;
 
     update(dt: number): void {
         let changed = false;
@@ -61,6 +69,13 @@ export class PlayerState {
                 0,
                 this._darkEnergy - this._drainRate * dt
             );
+
+            // Check if dark energy dropped below 10% and alarm hasn't played yet
+            if (newDark < this._maxEnergy * 0.1 && !this._playedAlarmDark) {
+                AudioManager.instance.playSound(Sounds.Alarm);
+                this._playedAlarmDark = true;
+            }
+
             if (
                 newLight !== this._lightEnergy ||
                 newDark !== this._darkEnergy
@@ -78,6 +93,13 @@ export class PlayerState {
                 0,
                 this._lightEnergy - this._drainRate * dt
             );
+
+            // Check if light energy dropped below 10% and alarm hasn't played yet
+            if (newLight < this._maxEnergy * 0.1 && !this._playedAlarmLight) {
+                AudioManager.instance.playSound(Sounds.Alarm);
+                this._playedAlarmLight = true;
+            }
+
             if (
                 newLight !== this._lightEnergy ||
                 newDark !== this._darkEnergy
