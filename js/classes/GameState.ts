@@ -1,3 +1,4 @@
+import { AudioManager } from './AudioManager.js';
 import { GlobalEvents } from './GlobalEvents.js';
 
 export class GameState {
@@ -38,6 +39,9 @@ export class GameState {
         this._settings = {};
 
         GlobalEvents.instance.levelReset.add(this._resetProgress, this);
+        AudioManager.instance.loadSounds().catch((e) => {
+            console.error('Error loading sounds:', e);
+        });
     }
 
     /**

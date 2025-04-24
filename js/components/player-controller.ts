@@ -14,6 +14,7 @@ import { Tags } from '@sorskoot/wonderland-components';
 import { LevelState } from '../classes/LevelState.js';
 import { PlayerState } from '../classes/PlayerState.js';
 import { GameState } from '../classes/GameState.js';
+import { AudioManager, Sounds } from '../classes/AudioManager.js';
 
 const moveVec3 = vec3.create();
 const posVec3 = vec3.create();
@@ -94,6 +95,7 @@ export class PlayerController extends Component {
                 if (Tags.hasTag(overlap.object, 'target')) {
                     // level Complete
                     this._completed = true;
+                    AudioManager.instance.playSound(Sounds.LevelComplete);
                     LevelState.instance.completeLevel();
                 }
             }
@@ -220,6 +222,7 @@ export class PlayerController extends Component {
         // Apply gravity force (always, unless grounded and not moving up)
         if (!this._isGrounded || this._verticalVelocity > 0) {
             if (!!this._getCeilingHit() && this._verticalVelocity > 0) {
+                AudioManager.instance.playSound(Sounds.Bump);
                 this._verticalVelocity = 0;
             }
             this._verticalVelocity -= this.gravity * dt;
@@ -236,10 +239,11 @@ export class PlayerController extends Component {
                     const groundHit = this._getGroundHit();
                     if (groundHit && groundHit.hitCount > 0) {
                         if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                            AudioManager.instance.playSound(Sounds.Die);
                             PlayerState.instance.die();
                             return;
                         }
-
+                        AudioManager.instance.playSound(Sounds.Land);
                         this.object.getPositionWorld(posVec3);
                         // Calculate the exact ground position
                         const groundY =
@@ -263,7 +267,8 @@ export class PlayerController extends Component {
             this.object.translateObject([0, this._verticalVelocity * dt, 0]);
             // // Re-check grounded after moving, especially if falling fast
             const groundHit = this._getGroundHit();
-            if (groundHit && groundHit.hitCount > 0) {
+            if (groundHit && groundHit.hitCount > 0 && !this._jump) {
+                AudioManager.instance.playSound(Sounds.Bump);
                 this._isGrounded = true;
             }
 
@@ -271,6 +276,7 @@ export class PlayerController extends Component {
             if (this._isGrounded && this._verticalVelocity < 0) {
                 if (groundHit && groundHit.hitCount > 0) {
                     if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                        AudioManager.instance.playSound(Sounds.Die);
                         PlayerState.instance.die();
                         return;
                     }
@@ -305,6 +311,7 @@ export class PlayerController extends Component {
         let moveX = 0;
 
         if (InputManager.getKeyDown(KeyType.Button2)) {
+            AudioManager.instance.playSound(Sounds.Switch);
             LevelState.instance.switchDimension(); // Switch dimension on button press
             //            GlobalEvents.instance.SwitchDimension.dispatch();
         }
@@ -352,6 +359,7 @@ export class PlayerController extends Component {
     private _jump() {
         // Only jump if grounded
         if (this._isGrounded) {
+            AudioManager.instance.playSound(Sounds.Jump);
             this._isGrounded = false; // No longer grounded once jump starts
             this._verticalVelocity = this.jumpInitialVelocity; // Apply initial jump force
         }

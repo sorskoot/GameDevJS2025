@@ -1,14 +1,14 @@
 #TODO
 
 Must Have:
-    ☐ 6 levels
+    ✔ 6 levels @done(25-04-24 20:21)
     ☐ A UI when you reached the last level
-    ☐ Jump until ceiling
+    ✔ Jump until ceiling @done(25-04-24 20:21)
 
 
 Should Have:
     ☐ Die when inside a block after switching
-    ☐ sound FX
+    ✔ sound FX @done(25-04-24 20:51)
     ☐ Music
     ☐ 10 levels
     ☐ Make sure the player is correctly position on the ground when landing

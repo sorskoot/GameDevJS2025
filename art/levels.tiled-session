@@ -56,10 +56,13 @@
             }
         },
         "level6.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 1.9435416666666667,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 85.92560831814771,
+                "x": 308.2002358237753,
                 "y": 192.17493836424052
             }
         },
