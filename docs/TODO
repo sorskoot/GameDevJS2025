@@ -1,16 +1,31 @@
 #TODO
 
-Must Have
-☐ 8 level
+Must Have:
+    ☐ 6 levels
+    ☐ A UI when you reached the last level
+    ☐ Jump until ceiling
 
-Should Have 
-☐ Die when inside a block after switching
-☐ sound FX
-☐ Music
 
-Could Have 
-☐ particles
-☐ Save Games
+Should Have:
+    ☐ Die when inside a block after switching
+    ☐ sound FX
+    ☐ Music
+    ☐ 10 levels
+    ☐ Make sure the player is correctly position on the ground when landing
+    ~ Sometimes the player floats slightly above the ground when landing on a block.
 
-Would Like
-☐ Enemies
+
+Could Have:
+    ☐ Particles
+    ☐ Save Games
+    ☐ Even more Levels
+     Animations on the cube:
+        ☐ Idle
+        ☐ Jump
+        ☐ Fall
+        ☐ Stopping
+    ☐ Merge _checkGrounded and _getGroundHit
+
+Would Like:
+    ☐ Enemies
+    ☐ Other interesting mechanics

@@ -231,6 +231,10 @@ Can be frustrating if energy drains too fast or checkpoints are too far apart. N
   - Areas where energy drains faster, forcing quick navigation.
 - **Energy Reversal Zones:**
   - Special platforms or zones where energy rules are flipped.
+- **Other**
+  - Plates on the ground that switch to dark or light when stepped on
+  - moving platforms
+  - platforms that flip between dark and light
 
 ---
 

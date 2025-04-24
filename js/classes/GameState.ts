@@ -21,14 +21,14 @@ export class GameState {
     }
     //'test',
     private _levels: string[] = [
-        // 'level1',
-        // 'level2',
-        // 'level3',
-        // 'level4',
+        'level1',
+        'level2',
+        'level3',
+        'level4',
         'level5',
         'level6',
         'level7',
-        'level8',
+        // 'level8',
     ];
     private _currentLevelIndex: number = 0;
     private _inProgress: boolean = false; // Flag to indicate if the game is in progress

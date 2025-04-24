@@ -30,6 +30,7 @@
 - Level 4: Jump to a platform that’s only visible in *Light*.
 - Level 5: swiching back and forth between light and dark.
 - Level 6: Jumping back and forth between light and dark platforms mid-jump.
+- Level 7: Same as 6 but harder
 
 Give **visual cues**: maybe the crystals subtly glow in the correct state?
 
@@ -39,10 +40,10 @@ Give **visual cues**: maybe the crystals subtly glow in the correct state?
 
 **Goal:** Layer earlier mechanics into more complex puzzles.
 
-- Level 7: Spikes that are hidden in Dark—force switching to see them.
-- Level 8: Jump on disappearing platforms *while* avoiding spikes below.
-- Level 9: Timed switches: you must switch mid-air *after* leaping.
-- Level 10: Crystals that appear only in Light, while the path is in Dark.
+- Level 8: ?? Spikes that are hidden in Dark—force switching to see them.
+- Level 9: Jump on disappearing platforms *while* avoiding spikes below.
+- Level 10: ?? Timed switches: you must switch mid-air *after* leaping.
+- Level 11: ?? Crystals that appear only in Light, while the path is in Dark.
 
 Maybe include a message like:  
 💡 *“Not everything you need can be seen at once.”*

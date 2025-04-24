@@ -22,9 +22,11 @@
                 {
                     "type": "player-controller",
                     "player-controller": {
-                        "speed": 5.0,
+                        "speed": 7.0,
                         "collisionObject": "87",
-                        "debugObject": "89"
+                        "debugObject": "89",
+                        "gravity": 15.0,
+                        "jumpInitialVelocity": 7.5
                     }
                 }
             ]

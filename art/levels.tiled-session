@@ -9,6 +9,14 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "Level6.tmx": {
+            "scale": 1.9435416666666667,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 286.59020259406157,
+                "y": 203.4944795798049
+            }
+        },
         "level2.tmx": {
             "expandedObjectLayers": [
                 2
@@ -43,8 +51,24 @@
             "scale": 1.9435416666666667,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 360.6817450959374,
-                "y": 221.5028406045664
+                "x": 247.4863329402937,
+                "y": 157.70179011683993
+            }
+        },
+        "level6.tmx": {
+            "scale": 1.9435416666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 85.92560831814771,
+                "y": 192.17493836424052
+            }
+        },
+        "level7.tmx": {
+            "scale": 1.9435416666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 239.76846392968162,
+                "y": 192.17493836424052
             }
         },
         "test.tmx": {
@@ -74,6 +98,8 @@
     ],
     "project": "levels.tiled-project",
     "recentFiles": [
+        "level7.tmx",
+        "Level6.tmx",
         "level4.tmx",
         "level5.tmx",
         "level3.tmx",

@@ -20,6 +20,7 @@ const posVec3 = vec3.create();
 const rotQuat = quat.create();
 const quatIdentity = quat.identity(quat.create());
 const downVec3 = vec3.fromValues(0, -1, 0); // Constant for down direction
+const upVec3 = vec3.fromValues(0, 1, 0); // Constant for up direction
 const tempVec3 = vec3.create(); // Temporary vector for calculations
 const tempVec3_2 = vec3.create(); // Temporary vector for calculations
 const rayStartOffset = 0.2; // Offset for the two ground check rays
@@ -175,12 +176,52 @@ export class PlayerController extends Component {
         return null;
     }
 
+    private _getCeilingHit(): RayHit | null {
+        this.object.getPositionWorld(posVec3);
+        const checkDist = groundCheckDist + groundSnapTolerance; // Reusing same distance
+
+        // Raycast 1 (slightly left)
+        vec3.set(
+            tempVec3,
+            posVec3[0] - rayStartOffset,
+            posVec3[1] - groundSnapTolerance + 0.4, // Start slightly below head
+            posVec3[2]
+        );
+        const hit1 = this.engine.scene.rayCast(
+            tempVec3,
+            upVec3,
+            FLOOR_WALL_MASK,
+            checkDist
+        );
+        if (hit1.hitCount > 0) return hit1;
+
+        // Raycast 2 (slightly right)
+        vec3.set(
+            tempVec3_2,
+            posVec3[0] + rayStartOffset,
+            posVec3[1] - groundSnapTolerance + 0.4, // Start slightly below head
+            posVec3[2]
+        );
+        const hit2 = this.engine.scene.rayCast(
+            tempVec3_2,
+            upVec3,
+            FLOOR_WALL_MASK,
+            checkDist
+        );
+        if (hit2.hitCount > 0) return hit2;
+
+        return null;
+    }
+
     private _applyGravity(dt: number): void {
         const wasGrounded = this._isGrounded;
-        this._isGrounded = this._checkGrounded();
+        this._isGrounded = !!this._getGroundHit();
 
         // Apply gravity force (always, unless grounded and not moving up)
         if (!this._isGrounded || this._verticalVelocity > 0) {
+            if (!!this._getCeilingHit() && this._verticalVelocity > 0) {
+                this._verticalVelocity = 0;
+            }
             this._verticalVelocity -= this.gravity * dt;
         }
 
@@ -218,13 +259,16 @@ export class PlayerController extends Component {
         }
 
         // Apply final vertical velocity
-        if (this._verticalVelocity !== 0) {
+        if (this._verticalVelocity != 0) {
             this.object.translateObject([0, this._verticalVelocity * dt, 0]);
-            // Re-check grounded after moving, especially if falling fast
-            this._isGrounded = this._checkGrounded();
+            // // Re-check grounded after moving, especially if falling fast
+            const groundHit = this._getGroundHit();
+            if (groundHit && groundHit.hitCount > 0) {
+                this._isGrounded = true;
+            }
+
             // If we became grounded after falling, snap and zero velocity
             if (this._isGrounded && this._verticalVelocity < 0) {
-                const groundHit = this._getGroundHit();
                 if (groundHit && groundHit.hitCount > 0) {
                     if (Tags.hasTag(groundHit.objects[0], 'death')) {
                         PlayerState.instance.die();
