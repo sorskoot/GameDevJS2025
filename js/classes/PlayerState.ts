@@ -4,7 +4,7 @@ import { GlobalEvents } from './GlobalEvents.js';
 
 export class PlayerState {
     private static _instance: PlayerState;
-    private _completed: boolean;
+    private _completed: boolean = false;
     static get instance(): PlayerState {
         if (!PlayerState._instance) {
             PlayerState._instance = new PlayerState();
@@ -12,11 +12,11 @@ export class PlayerState {
         return PlayerState._instance;
     }
 
-    private _lightEnergy: number;
-    private _darkEnergy: number;
-    private _maxEnergy: number;
-    private _drainRate: number;
-    private _inLight: boolean;
+    private _lightEnergy: number = 100;
+    private _darkEnergy: number = 100;
+    private _maxEnergy: number = 100;
+    private _drainRate: number = 15;
+    private _inLight: boolean = false;
     private _energyListeners: Array<() => void> = [];
 
     private constructor() {
