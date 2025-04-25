@@ -22,7 +22,7 @@ export class GameState {
     }
     //'test',
     private _levels: string[] = [
-        'level1',
+        //   'level1',
         'level2',
         'level3',
         'level4',

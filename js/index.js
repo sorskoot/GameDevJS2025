@@ -11,6 +11,7 @@
 /* wle:auto-imports:start */
 import {KeyboardController as KeyboardController1} from './components/input/keyboard-controller.js';
 import {Tags} from '@sorskoot/wonderland-components';
+import {DeathParticles} from './components/death-particles.js';
 import {GameRoot} from './components/game-root.js';
 import {MapLoader} from './components/map-loader.js';
 import {PlayerController} from './components/player-controller.js';
@@ -24,6 +25,7 @@ export default function(engine) {
 /* wle:auto-register:start */
 engine.registerComponent(KeyboardController1);
 engine.registerComponent(Tags);
+engine.registerComponent(DeathParticles);
 engine.registerComponent(GameRoot);
 engine.registerComponent(MapLoader);
 engine.registerComponent(PlayerController);

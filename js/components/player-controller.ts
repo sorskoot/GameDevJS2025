@@ -10,7 +10,7 @@ import { InputManager, KeyType } from './input/InputManager.js';
 import { quat, vec3 } from 'gl-matrix';
 import { GlobalEvents } from '../classes/GlobalEvents.js';
 import { RayHit } from '@wonderlandengine/api'; // Import RayHit
-import { Tags } from '@sorskoot/wonderland-components';
+import { Tags, wlUtils } from '@sorskoot/wonderland-components';
 import { LevelState } from '../classes/LevelState.js';
 import { PlayerState } from '../classes/PlayerState.js';
 import { GameState } from '../classes/GameState.js';
@@ -51,6 +51,9 @@ export class PlayerController extends Component {
 
     @property.object({ required: true })
     collisionObject!: Object3D;
+
+    @property.object({ required: true })
+    deathEffect!: Object3D;
 
     // @property.animation()
     // idle: Animation;
@@ -296,6 +299,9 @@ export class PlayerController extends Component {
         }
     }
     private _die() {
+        const deathFX = this.deathEffect.clone();
+        deathFX.setPositionWorld(this.object.getPositionWorld(posVec3));
+        wlUtils.setActive(deathFX, true);
         this._reset();
     }
 

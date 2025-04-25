@@ -26,7 +26,8 @@
                         "collisionObject": "87",
                         "debugObject": "89",
                         "gravity": 15.0,
-                        "jumpInitialVelocity": 7.5
+                        "jumpInitialVelocity": 7.5,
+                        "deathEffect": "102"
                     }
                 }
             ]
@@ -832,6 +833,78 @@
                 3.0,
                 3.0
             ]
+        },
+        "100": {
+            "name": "Particles",
+            "parent": "90"
+        },
+        "101": {
+            "name": "Death",
+            "parent": "100"
+        },
+        "102": {
+            "name": "DeathSystem",
+            "parent": "100",
+            "components": [
+                {
+                    "type": "death-particles",
+                    "death-particles": {
+                        "particlePrefab": "101",
+                        "maxParticles": 10,
+                        "particleScale": 1.0,
+                        "initialSpeed": 1.0,
+                        "lifeTime": 1.0
+                    },
+                    "active": false
+                }
+            ]
+        },
+        "103": {
+            "name": "Mesh.000",
+            "parent": "101",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "3",
+                        "material": "104"
+                    }
+                }
+            ],
+            "scaling": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "106": {
+            "name": "Mesh.001",
+            "parent": "100",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "4"
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                -0.9879197,
+                -2.8107798
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
         }
     },
     "meshes": {
@@ -1245,6 +1318,44 @@
                 ]
             },
             "name": "Dark Text Material"
+        },
+        "104": {
+            "name": "Death",
+            "Phong": {
+                "diffuseColor": [
+                    1.0,
+                    0.0,
+                    0.9176473,
+                    1.0
+                ],
+                "specularColor": [
+                    9.999999974752427e-7,
+                    9.999899930335232e-7,
+                    9.999899930335232e-7,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.05,
+                    0.05,
+                    0.05,
+                    1.0
+                ],
+                "emissiveColor": [
+                    1.0,
+                    0.0,
+                    0.9176473,
+                    1.0
+                ]
+            },
+            "pipeline": "105",
+            "Flat": {
+                "color": [
+                    1.0,
+                    0.0,
+                    1.0,
+                    1.0
+                ]
+            }
         }
     },
     "shaders": {
@@ -1794,6 +1905,30 @@
                 "name": "AtmosphericSky",
                 "file": "default"
             }
+        },
+        "105": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "features": {
+                "WITH_EMISSIVE": true,
+                "ALPHA_MASKED": false
+            },
+            "name": "Phong Opaque Add",
+            "blending": true,
+            "blendDestAlpha": "one",
+            "blendDestRgb": "one",
+            "blendSrcRgb": "one",
+            "blendSrcAlpha": "zero",
+            "depthFunction": "less or equal",
+            "depthWrite": true,
+            "depthTest": true,
+            "castShadows": false,
+            "shader": "2",
+            "blendEqRgb": "add",
+            "blendEqAlpha": "add",
+            "sampleAlphaToCoverage": false
         }
     },
     "textures": {
