@@ -72,14 +72,27 @@ export class GameState {
      * Load game state from persistent storage.
      */
     load(): void {
-        // TODO: Implement loading from localStorage or file
+        const savedState = localStorage.getItem('gameState');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            this._unlockedLevels = new Set(state.unlockedLevels);
+            this._settings = state.settings;
+            this._currentLevelIndex = state.currentLevelIndex;
+            this._inProgress = state.inProgress;
+        }
     }
 
     /**
      * Save game state to persistent storage.
      */
     save(): void {
-        // TODO: Implement saving to localStorage or file
+        const state = {
+            unlockedLevels: Array.from(this._unlockedLevels),
+            settings: this._settings,
+            currentLevelIndex: this._currentLevelIndex,
+            inProgress: this._inProgress,
+        };
+        localStorage.setItem('gameState', JSON.stringify(state));
     }
 
     /**

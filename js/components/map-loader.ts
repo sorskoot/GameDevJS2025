@@ -12,6 +12,13 @@ const tilePosition = vec3.create();
 // Scale factor from Tiled pixels to Wonderland meters
 const TILE_SCALE = 1 / 16;
 
+// Configuration constants
+const BORDER_THICKNESS = 6;
+const TILE_LAYER_INDEX = 0;
+const TILE_ID_BLACK = 1;
+const TILE_ID_WHITE = 2;
+const TILE_ID_RED = 3;
+
 export class MapLoader extends Component {
     static TypeName = 'map-loader';
 
@@ -80,7 +87,7 @@ export class MapLoader extends Component {
         const rawData = await fetch(`maps/${mapName}.json`);
         const data: TiledMap = await rawData.json();
 
-        const layer = data.layers[0];
+        const layer = data.layers[TILE_LAYER_INDEX];
         // Ensure it's a tile layer and has data
         if (!layer || layer.type !== 'tilelayer' || !layer.data) {
             console.error('MapLoader: First layer is not a valid tile layer.');
@@ -104,15 +111,15 @@ export class MapLoader extends Component {
 
                 let newTile: Object3D;
                 switch (tileId) {
-                    case 1:
+                    case TILE_ID_BLACK:
                         newTile = this.tileBlack.clone(this.object);
                         this._blackBlocks.push(newTile);
                         break;
-                    case 2:
+                    case TILE_ID_WHITE:
                         newTile = this.tileWhite.clone(this.object);
                         this._whiteBlocks.push(newTile);
                         break;
-                    case 3:
+                    case TILE_ID_RED:
                         newTile = this.tileRed.clone(this.object);
                         break;
                     // Clone the template tile
@@ -183,7 +190,7 @@ export class MapLoader extends Component {
         }
 
         // Calculate border positions and add tiles
-        const borderThickness = 6;
+        const borderThickness = BORDER_THICKNESS;
 
         // Top and bottom borders
         for (let y = 0; y < borderThickness; ++y) {
