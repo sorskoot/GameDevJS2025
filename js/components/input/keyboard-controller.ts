@@ -1,3 +1,4 @@
+//@ts-nocheck //TK: This file is from my personal libarary. It doesn't fully comply with the stricht standard yet.
 import { Component } from '@wonderlandengine/api';
 import { InputManager, KeyEventType } from './InputManager.js';
 
