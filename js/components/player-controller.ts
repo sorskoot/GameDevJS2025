@@ -71,11 +71,12 @@ export class PlayerController extends Component {
     // Gravity/Jump state
     private _isGrounded: boolean = false;
     private _verticalVelocity: number = 0; // Combined jump/fall velocity
-    private _collision: CollisionComponent;
+    private _collision!: CollisionComponent;
     private _completed: boolean = false;
 
     start() {
-        this._collision = this.collisionObject.getComponent(CollisionComponent);
+        this._collision =
+            this.collisionObject.getComponent(CollisionComponent)!;
         GlobalEvents.instance.teleportPlayer.add(this._onTeleportPlayer, this);
         GlobalEvents.instance.playerDied.add(this._die, this); // Dispatch event for player death
         GlobalEvents.instance.levelReset.add(this._reset, this); // Dispatch event for player death
@@ -241,7 +242,7 @@ export class PlayerController extends Component {
                 if (!wasGrounded) {
                     const groundHit = this._getGroundHit();
                     if (groundHit && groundHit.hitCount > 0) {
-                        if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                        if (Tags.hasTag(groundHit.objects[0]!, 'death')) {
                             AudioManager.instance.playSound(Sounds.Die);
                             PlayerState.instance.die();
                             return;
@@ -278,7 +279,7 @@ export class PlayerController extends Component {
             // If we became grounded after falling, snap and zero velocity
             if (this._isGrounded && this._verticalVelocity < 0) {
                 if (groundHit && groundHit.hitCount > 0) {
-                    if (Tags.hasTag(groundHit.objects[0], 'death')) {
+                    if (Tags.hasTag(groundHit.objects[0]!, 'death')) {
                         AudioManager.instance.playSound(Sounds.Die);
                         PlayerState.instance.die();
                         return;

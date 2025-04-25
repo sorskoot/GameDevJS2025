@@ -40,7 +40,7 @@ export class MapLoader extends Component {
 
     private _whiteBlocks: Object3D[] = []; // Array to store white blocks
     private _blackBlocks: Object3D[] = []; // Array to store black blocks
-    private _startPos: number[];
+    private _startPos: number[] = [0, 0, 0]; // Player start position
 
     private static _instance: MapLoader;
     static get instance(): MapLoader {
@@ -141,7 +141,7 @@ export class MapLoader extends Component {
                 for (const obj of layer.objects) {
                     if (obj.type == 'Text') {
                         const text = this.tutorialTextObject.clone(this.object);
-                        const textComponent = text.getComponent(TutorialText);
+                        const textComponent = text.getComponent(TutorialText)!;
                         textComponent.setText(obj.name);
                         text.resetPositionRotation();
                         text.setPositionWorld([
