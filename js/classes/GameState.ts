@@ -117,6 +117,7 @@ export class GameState {
     }
 
     startGame() {
+        AudioManager.instance.playMusic();
         GlobalEvents.instance.startGame.dispatch();
         this._resetProgress();
     }

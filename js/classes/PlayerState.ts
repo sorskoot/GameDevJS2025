@@ -41,7 +41,7 @@ export class PlayerState {
         this._maxEnergy = 100;
         this._lightEnergy = this._maxEnergy;
         this._darkEnergy = this._maxEnergy;
-        this._drainRate = 10;
+        this._drainRate = 15;
         this._inLight = true;
     }
 
