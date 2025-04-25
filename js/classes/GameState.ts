@@ -78,7 +78,6 @@ export class GameState {
             this._unlockedLevels = new Set(state.unlockedLevels);
             this._settings = state.settings;
             this._currentLevelIndex = state.currentLevelIndex;
-            this._inProgress = state.inProgress;
         }
     }
 
@@ -90,7 +89,6 @@ export class GameState {
             unlockedLevels: Array.from(this._unlockedLevels),
             settings: this._settings,
             currentLevelIndex: this._currentLevelIndex,
-            inProgress: this._inProgress,
         };
         localStorage.setItem('gameState', JSON.stringify(state));
     }

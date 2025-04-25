@@ -10,14 +10,20 @@ Should Have:
     ☐ Die when inside a block after switching
     ✔ sound FX @done(25-04-24 20:51)
     ✔ Sound on Button Click @done(25-04-24 21:12)
-    ☐ Music
+    ✔ Music @done(25-04-26 00:25)
     ☐ 10 levels
     ☐ Make sure the player is correctly position on the ground when landing
     ~ Sometimes the player floats slightly above the ground when landing on a block.
 
 
 Could Have:
-    ☐ Particles
+    Particles:
+        ✔ Death @done(25-04-26 00:25)
+        ☐ jump
+        ☐ landing
+        ☐ switch
+        ☐ idle
+
     ☐ Save Games
     ☐ Even more Levels
      Animations on the cube:

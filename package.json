@@ -1,16 +1,22 @@
 {
-    "name": "Equilibrium",
+    "name": "equilibrium",
     "version": "1.0.0",
-    "description": "My Wonderland project",
+    "description": "Equilibrium - Entry for the Gamedev.js Jam 2025",
     "main": "js/index.js",
     "type": "module",
+    "license": "MIT",
+    "author": "sorskoot",
     "module": "js/index.js",
     "scripts": {
         "build": "echo \"The 'build' script is run by the editor and should produce your application bundle\""
     },
     "keywords": [
-        "wonderland-engine"
+        "wonderland-engine",
+        "wonderland",
+        "sorskoot",
+        "gamedevjs2025"
     ],
+    "wonderlandengine": {},
     "dependencies": {
         "@sorskoot/wonderland-components": "^1.5.2",
         "@wonderlandengine/api": "^1.3.4",

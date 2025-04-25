@@ -22,9 +22,9 @@ export class GameRoot extends Component {
     }
 
     // Example: cached state references (uncomment when implemented)
-    private _gameState: GameState;
-    private _levelState: LevelState;
-    private _playerState: PlayerState;
+    private _gameState!: GameState;
+    private _levelState!: LevelState;
+    private _playerState!: PlayerState;
 
     init() {
         if (GameRoot._instance) {
@@ -54,7 +54,8 @@ export class GameRoot extends Component {
         this._gameState = GameState.instance;
         this._levelState = LevelState.instance;
         this._playerState = PlayerState.instance;
-        this._gameState.load();
+
+        // this._gameState.load(); // TK: For now just always start a new game
         this._levelState.initForCurrentLevel();
     }
 
