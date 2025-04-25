@@ -1,6 +1,9 @@
 import { AudioManager } from './AudioManager.js';
 import { GlobalEvents } from './GlobalEvents.js';
 
+/**
+ * Class managing the overall game state, including levels, progress and settings
+ */
 export class GameState {
     private static _instance: GameState;
 
@@ -14,6 +17,10 @@ export class GameState {
      */
     private _settings: Record<string, unknown>;
 
+    /**
+     * Gets the singleton instance of GameState
+     * @returns The GameState instance
+     */
     static get instance(): GameState {
         if (!GameState._instance) {
             GameState._instance = new GameState();
@@ -21,6 +28,9 @@ export class GameState {
         return GameState._instance;
     }
 
+    /**
+     * List of available level IDs in sequence
+     */
     private _levels: string[] = [
         'level1',
         'level2',
@@ -31,8 +41,16 @@ export class GameState {
         'level7',
         // 'level8',
     ];
+
+    /**
+     * Index of the current active level in the levels array
+     */
     private _currentLevelIndex: number = 0;
-    private _inProgress: boolean = false; // Flag to indicate if the game is in progress
+
+    /**
+     * Flag indicating whether the game is currently in progress
+     */
+    private _inProgress: boolean = false;
 
     private constructor() {
         this._unlockedLevels = new Set<string>();
@@ -64,6 +82,9 @@ export class GameState {
         return this._levels[this._currentLevelIndex];
     }
 
+    /**
+     * Get whether the game is currently in progress
+     */
     get inProgress(): boolean {
         return this._inProgress;
     }
@@ -115,6 +136,10 @@ export class GameState {
         this._settings[key] = value;
     }
 
+    /**
+     * Advances to the next level if available
+     * @returns True if advanced to next level, false if already at final level
+     */
     nextLevel(): boolean {
         if (this._currentLevelIndex < this._levels.length - 1) {
             this._currentLevelIndex++;
@@ -123,16 +148,26 @@ export class GameState {
         return false;
     }
 
+    /**
+     * Resets the progress back to the first level
+     */
     resetProgress(): void {
         this._currentLevelIndex = 0;
     }
 
+    /**
+     * Starts the game, plays music and initializes game progress
+     */
     startGame() {
         AudioManager.instance.playMusic();
         GlobalEvents.instance.startGame.dispatch();
         this._resetProgress();
     }
 
+    /**
+     * Sets the game in progress state
+     * @private
+     */
     private _resetProgress() {
         this._inProgress = true;
     }

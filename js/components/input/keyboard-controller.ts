@@ -53,7 +53,9 @@ export class KeyboardController extends Component {
         for (const key in this._pressedKeys) {
             if (this._pressedKeys.hasOwnProperty(key)) {
                 const typedKey = +key as KeyboardController.KeyType;
-                const value = this._pressedKeys[typedKey];
+                const value = this._pressedKeys[
+                    typedKey
+                ] as KeyboardController.KeyPressState;
 
                 if (value === KeyboardController.KeyPressState.Pressed) {
                     this._inputManager.recordKey(

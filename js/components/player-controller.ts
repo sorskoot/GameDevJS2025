@@ -1,10 +1,4 @@
-import {
-    AnimationComponent,
-    Collider,
-    CollisionComponent,
-    Component,
-    Object3D,
-} from '@wonderlandengine/api';
+import { CollisionComponent, Component, Object3D } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 import { InputManager, KeyType } from './input/InputManager.js';
 import { quat, vec3 } from 'gl-matrix';
@@ -16,64 +10,155 @@ import { PlayerState } from '../classes/PlayerState.js';
 import { GameState } from '../classes/GameState.js';
 import { AudioManager, Sounds } from '../classes/AudioManager.js';
 
+/**
+ * Reusable vector for movement calculations
+ */
 const moveVec3 = vec3.create();
-const posVec3 = vec3.create();
-const rotQuat = quat.create();
-const quatIdentity = quat.identity(quat.create());
-const downVec3 = vec3.fromValues(0, -1, 0); // Constant for down direction
-const upVec3 = vec3.fromValues(0, 1, 0); // Constant for up direction
-const tempVec3 = vec3.create(); // Temporary vector for calculations
-const tempVec3_2 = vec3.create(); // Temporary vector for calculations
-const rayStartOffset = 0.2; // Offset for the two ground check rays
-const groundCheckDist = 0.2; // How far down to check for ground (adjust as needed)
-const groundSnapTolerance = 0.1; // Small tolerance for snapping
 
+/**
+ * Reusable vector for position storage
+ */
+const posVec3 = vec3.create();
+
+/**
+ * Reusable quaternion for rotation calculations
+ */
+const rotQuat = quat.create();
+
+/**
+ * Identity quaternion for reference
+ */
+const quatIdentity = quat.identity(quat.create());
+
+/**
+ * Vector representing the downward direction (for raycasting)
+ */
+const downVec3 = vec3.fromValues(0, -1, 0);
+
+/**
+ * Vector representing the upward direction (for raycasting)
+ */
+const upVec3 = vec3.fromValues(0, 1, 0);
+
+/**
+ * Temporary vector for various calculations
+ */
+const tempVec3 = vec3.create();
+
+/**
+ * Secondary temporary vector for calculations
+ */
+const tempVec3_2 = vec3.create();
+
+/**
+ * Horizontal offset for ground check raycasts (left/right of center)
+ */
+const rayStartOffset = 0.2;
+
+/**
+ * Distance to check for ground below the player
+ */
+const groundCheckDist = 0.2;
+
+/**
+ * Small vertical offset for ground snapping and collision detection
+ */
+const groundSnapTolerance = 0.1;
+
+/**
+ * Collision mask for floors and walls
+ */
 const FLOOR_WALL_MASK = (1 << 1) + (1 << 2) + (1 << 3);
 
+/**
+ * Player movement states
+ */
 enum playerState {
+    /**
+     * Initial state before player has control
+     */
     init,
+
+    /**
+     * Player is standing still
+     */
     idle,
+
+    /**
+     * Player is moving at normal speed
+     */
     walking,
+
+    /**
+     * Player is moving at increased speed
+     */
     running,
 }
 
+/**
+ * Component that handles player movement, physics, and interactions
+ * Manages horizontal movement, jumping, gravity, and collision detection
+ */
 export class PlayerController extends Component {
     static TypeName = 'player-controller';
 
+    /**
+     * Horizontal movement speed in units per second
+     */
     @property.float(1.0)
     speed = 1.0;
 
-    @property.float(5.0) // Initial upward velocity for the jump
+    /**
+     * Initial upward velocity applied when jumping
+     */
+    @property.float(5.0)
     jumpInitialVelocity = 5.0;
 
-    @property.float(9.81) // Gravity acceleration
+    /**
+     * Gravity acceleration applied to vertical movement
+     */
+    @property.float(9.81)
     gravity = 9.81;
 
+    /**
+     * Object with collision component for detecting interactions
+     */
     @property.object({ required: true })
     collisionObject!: Object3D;
 
+    /**
+     * Particle effect prefab to spawn when player dies
+     */
     @property.object({ required: true })
     deathEffect!: Object3D;
 
-    // @property.animation()
-    // idle: Animation;
-
-    // @property.animation()
-    // run: Animation;
-
-    // @property.object({ required: true })
-    // animationRoot!: Object3D;
-
-    //private _animationComponent: AnimationComponent;
-    // private _characterState: playerState = playerState.init;
-    // private _lastAngle: number = 0;
-
-    // Gravity/Jump state
+    /**
+     * Whether player is currently on the ground
+     * @private
+     */
     private _isGrounded: boolean = false;
-    private _verticalVelocity: number = 0; // Combined jump/fall velocity
+
+    /**
+     * Current vertical velocity (positive = up, negative = down)
+     * @private
+     */
+    private _verticalVelocity: number = 0;
+
+    /**
+     * Reference to the collision component
+     * @private
+     */
     private _collision!: CollisionComponent;
+
+    /**
+     * Whether the current level has been completed
+     * @private
+     */
     private _completed: boolean = false;
 
+    /**
+     * Initializes the player controller and sets up event listeners
+     */
     start() {
         this._collision =
             this.collisionObject.getComponent(CollisionComponent)!;
@@ -83,6 +168,11 @@ export class PlayerController extends Component {
         this._reset(); // Reset state on start
     }
 
+    /**
+     * Updates player state each frame
+     * Handles gravity, input processing, and collision detection
+     * @param dt Delta time in seconds since last update
+     */
     update(dt: number) {
         if (this._completed || !GameState.instance.inProgress) {
             return; // Skip input handling if level is completed
@@ -92,6 +182,11 @@ export class PlayerController extends Component {
         this._handleInput(dt);
         this._checkCollisions();
     }
+
+    /**
+     * Checks for collisions with special objects like the level target
+     * @private
+     */
     private _checkCollisions() {
         const overlaps = this._collision.queryOverlaps();
         if (overlaps.length > 0) {
@@ -106,6 +201,11 @@ export class PlayerController extends Component {
         }
     }
 
+    /**
+     * Checks if the player is currently on the ground using raycasts
+     * @returns True if either left or right raycast detects ground below player
+     * @private
+     */
     private _checkGrounded(): boolean {
         this.object.getPositionWorld(posVec3);
 
@@ -145,6 +245,11 @@ export class PlayerController extends Component {
         return leftHit || rightHit;
     }
 
+    /**
+     * Performs raycasts below the player to detect ground
+     * @returns RayHit object if ground is detected, null otherwise
+     * @private
+     */
     private _getGroundHit(): RayHit | null {
         this.object.getPositionWorld(posVec3);
         const checkDist = groundCheckDist + groundSnapTolerance;
@@ -182,6 +287,11 @@ export class PlayerController extends Component {
         return null;
     }
 
+    /**
+     * Performs raycasts above the player to detect ceilings
+     * @returns RayHit object if ceiling is detected, null otherwise
+     * @private
+     */
     private _getCeilingHit(): RayHit | null {
         this.object.getPositionWorld(posVec3);
         const checkDist = groundCheckDist + groundSnapTolerance; // Reusing same distance
@@ -219,6 +329,11 @@ export class PlayerController extends Component {
         return null;
     }
 
+    /**
+     * Applies gravity, handles ground snapping, and updates vertical movement
+     * @param dt Delta time in seconds since last update
+     * @private
+     */
     private _applyGravity(dt: number): void {
         const wasGrounded = this._isGrounded;
         this._isGrounded = !!this._getGroundHit();
@@ -299,6 +414,11 @@ export class PlayerController extends Component {
             }
         }
     }
+
+    /**
+     * Handles player death - spawns death particles and resets state
+     * @private
+     */
     private _die() {
         const deathFX = this.deathEffect.clone();
         deathFX.setPositionWorld(this.object.getPositionWorld(posVec3));
@@ -306,6 +426,10 @@ export class PlayerController extends Component {
         this._reset();
     }
 
+    /**
+     * Resets player to initial state (used on level start or after death)
+     * @private
+     */
     private _reset() {
         // Store initial Y position (less critical now, but good for reference)
         this._completed = false;
@@ -314,6 +438,12 @@ export class PlayerController extends Component {
         this._verticalVelocity = 0; // Ensure starting with no vertical movement
     }
 
+    /**
+     * Processes player input for movement and actions
+     * Handles dimension switching, jumping, and horizontal movement
+     * @param dt Delta time in seconds since last update
+     * @private
+     */
     private _handleInput(dt: number) {
         let moveX = 0;
 
@@ -363,6 +493,10 @@ export class PlayerController extends Component {
         }
     }
 
+    /**
+     * Makes the player jump if currently grounded
+     * @private
+     */
     private _jump() {
         // Only jump if grounded
         if (this._isGrounded) {
@@ -372,6 +506,12 @@ export class PlayerController extends Component {
         }
     }
 
+    /**
+     * Teleports the player to a new position
+     * Handles ground snapping and resets vertical velocity
+     * @param position The world position to teleport to
+     * @private
+     */
     private _onTeleportPlayer = (position: number[]) => {
         // Use arrow function
         this.object.setPositionWorld(position);

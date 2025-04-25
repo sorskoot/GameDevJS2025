@@ -7,46 +7,109 @@ import { wlUtils } from '@sorskoot/wonderland-components';
 import { LevelState } from '../classes/LevelState.js';
 import { TutorialText } from './tutorial-text.js';
 
-// Reusable vector for position calculations
+/**
+ * Reusable vector for position calculations to avoid garbage collection
+ */
 const tilePosition = vec3.create();
-// Scale factor from Tiled pixels to Wonderland meters
+
+/**
+ * Scale factor from Tiled pixels to Wonderland meters
+ */
 const TILE_SCALE = 1 / 16;
 
-// Configuration constants
+/**
+ * Configuration constants for map building
+ */
 const BORDER_THICKNESS = 6;
 const TILE_LAYER_INDEX = 0;
 const TILE_ID_BLACK = 1;
 const TILE_ID_WHITE = 2;
 const TILE_ID_RED = 3;
 
+/**
+ * Component responsible for loading and rendering tile-based maps from Tiled JSON files
+ * Handles creation of level geometry and manages dimension switching visibility
+ */
 export class MapLoader extends Component {
     static TypeName = 'map-loader';
 
+    /**
+     * Template for generic level tiles
+     */
     @property.object({ required: true })
     tile!: Object3D;
+
+    /**
+     * Template for white dimension tiles
+     */
     @property.object({ required: true })
     tileWhite!: Object3D;
+
+    /**
+     * Template for black dimension tiles
+     */
     @property.object({ required: true })
     tileBlack!: Object3D;
 
+    /**
+     * Template for special red tiles
+     */
     @property.object({ required: true })
     tileRed!: Object3D;
 
+    /**
+     * The level end target object
+     */
     @property.object({ required: true })
     target!: Object3D;
 
+    /**
+     * Template for tutorial text objects
+     */
     @property.object({ required: true })
     tutorialTextObject!: Object3D;
 
-    private _whiteBlocks: Object3D[] = []; // Array to store white blocks
-    private _blackBlocks: Object3D[] = []; // Array to store black blocks
-    private _startPos: number[] = [0, 0, 0]; // Player start position
+    /**
+     * Collection of white blocks for dimension switching
+     * @private
+     */
+    private _whiteBlocks: Object3D[] = [];
 
+    /**
+     * Collection of black blocks for dimension switching
+     * @private
+     */
+    private _blackBlocks: Object3D[] = [];
+
+    /**
+     * Player start position in the level [x, y, z]
+     * @private
+     */
+    private _startPos: number[] = [0, 0, 0];
+
+    /**
+     * Current dimension state (true = light, false = dark)
+     * @private
+     */
+    private _isLight: boolean = true;
+
+    /**
+     * Singleton instance of MapLoader
+     * @private
+     */
     private static _instance: MapLoader;
+
+    /**
+     * Gets the singleton instance of MapLoader
+     * @returns The MapLoader instance
+     */
     static get instance(): MapLoader {
         return MapLoader._instance;
     }
 
+    /**
+     * Initializes the component and ensures only one instance exists
+     */
     init() {
         if (MapLoader._instance) {
             console.error(
@@ -56,6 +119,10 @@ export class MapLoader extends Component {
         MapLoader._instance = this;
     }
 
+    /**
+     * Sets up the map loader and validates required properties
+     * Registers event handlers for dimension switching and player events
+     */
     start() {
         // Validate required properties
         if (!this.tile || !this.tileWhite || !this.tileBlack) {
@@ -76,12 +143,23 @@ export class MapLoader extends Component {
         this.engine.scene.clearColor = [0, 0, 0, 1];
     }
 
+    /**
+     * Handles player death event
+     * Resets dimension to light and teleports player back to start
+     * @private
+     */
     private _onPlayerDied() {
         this._isLight = true;
         this._updateLightState();
         GlobalEvents.instance.teleportPlayer.dispatch(this._startPos);
     }
 
+    /**
+     * Loads a map from a Tiled JSON file and constructs the level
+     * Creates all tiles, finds player start/end positions, and sets up tutorial text
+     * @param mapName The name of the map file to load (without extension)
+     * @returns Promise that resolves when map is fully loaded
+     */
     async loadMap(mapName: string): Promise<void> {
         this._reset();
         const rawData = await fetch(`maps/${mapName}.json`);
@@ -250,17 +328,31 @@ export class MapLoader extends Component {
         LevelState.instance.setMapLoaded();
     }
 
-    _isLight: boolean = true;
+    /**
+     * Handles dimension switching event
+     * Toggles between light and dark dimensions
+     * @private
+     */
     private _onSwitchDimension() {
         this._isLight = !this._isLight;
         this._updateLightState();
     }
 
+    /**
+     * Handles level reset event
+     * Returns to light dimension
+     * @private
+     */
     private _levelReset() {
         this._isLight = true;
         this._updateLightState();
     }
 
+    /**
+     * Updates visibility of blocks based on current dimension
+     * Shows/hides blocks and changes background color
+     * @private
+     */
     private _updateLightState() {
         if (this._isLight) {
             this.engine.scene.clearColor = [0, 0, 0, 1];
@@ -281,6 +373,11 @@ export class MapLoader extends Component {
         }
     }
 
+    /**
+     * Clears all existing blocks and resets the map state
+     * Called before loading a new map
+     * @private
+     */
     private _reset() {
         if (this.object.children.length > 0) {
             this.object.children.forEach((child) => {

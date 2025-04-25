@@ -1,6 +1,9 @@
 import { NotifyPropertyChanged } from '@sorskoot/wonderland-components';
 import { GlobalEvents } from './GlobalEvents.js';
 
+/**
+ * Class managing the state of the current level
+ */
 export class LevelState extends NotifyPropertyChanged {
     /**
      * True if in light dimension, false if in dark.
@@ -12,12 +15,27 @@ export class LevelState extends NotifyPropertyChanged {
      */
     private _checkpoint: number[] | null;
 
+    /**
+     * Singleton instance of the LevelState
+     */
     private static _instance: LevelState;
-    private _isLoaded: boolean;
+
+    /**
+     * Flag indicating whether the level has been loaded
+     */
+    private _isLoaded: boolean = false;
+
+    /**
+     * Gets whether the level has been loaded
+     */
     get isLoaded(): boolean {
-        return LevelState._instance._isLoaded;
+        return this._isLoaded;
     }
 
+    /**
+     * Gets the singleton instance of LevelState
+     * @returns The LevelState instance
+     */
     static get instance(): LevelState {
         if (!LevelState._instance) {
             LevelState._instance = new LevelState();
@@ -25,6 +43,9 @@ export class LevelState extends NotifyPropertyChanged {
         return LevelState._instance;
     }
 
+    /**
+     * Private constructor to enforce singleton pattern
+     */
     private constructor() {
         super();
         this._isLight = true;
@@ -55,6 +76,9 @@ export class LevelState extends NotifyPropertyChanged {
         GlobalEvents.instance.switchDimension.dispatch(this._isLight);
     }
 
+    /**
+     * Marks the current level as completed and resets the level state
+     */
     completeLevel(): void {
         GlobalEvents.instance.levelCompleted.dispatch();
         this._reset();
@@ -80,8 +104,14 @@ export class LevelState extends NotifyPropertyChanged {
         this.notifyPropertyChanged('checkpoint');
     }
 
+    /**
+     * Initializes level-specific state for the current level
+     */
     initForCurrentLevel() {}
 
+    /**
+     * Marks the current map as loaded and initializes it
+     */
     setMapLoaded() {
         this.initForCurrentLevel();
         this._isLoaded = true;

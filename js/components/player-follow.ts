@@ -2,41 +2,51 @@ import { Component, Object3D } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 import { vec3 } from 'gl-matrix';
 
-// Temporary variables for calculations to avoid allocations in update
+/**
+ * Reusable vectors for camera following calculations
+ * These are created outside the component to avoid allocations during updates
+ */
 const tempPos = vec3.create();
 const targetPos = vec3.create();
 const currentPos = vec3.create();
 const lerpedPos = vec3.create();
 
+/**
+ * Component that makes an object (typically a camera) smoothly follow the player
+ * Maintains a constant distance and height offset while using interpolation for smooth movement
+ */
 export class PlayerFollow extends Component {
     static TypeName = 'player-follow';
 
     /**
-     * The player object to follow.
+     * The player object to follow
      */
     @property.object({ required: true })
     player!: Object3D;
 
     /**
-     * Target distance to keep from the player (e.g., on the Z axis for side view).
+     * Target distance to keep from the player on the Z axis
      */
-    @property.float(10.0) // Adjusted default for a potential side view
+    @property.float(10.0)
     distance = 10.0;
 
     /**
-     * Speed to lerp towards the target position.
+     * Speed factor for interpolation movement
+     * Higher values make the camera follow more quickly
      */
     @property.float(1.0)
     speed = 1.0;
 
     /**
-     * Vertical offset from the player's position.
+     * Vertical offset above the player's position
      */
     @property.float(4.0)
     height = 4.0;
 
-    // init() {} // init is usually not needed unless for complex setup before start
-
+    /**
+     * Validates that required properties are set
+     * Throws an error if the player object is not assigned
+     */
     start() {
         if (!this.player) {
             throw new Error(
@@ -45,6 +55,11 @@ export class PlayerFollow extends Component {
         }
     }
 
+    /**
+     * Updates the follower's position each frame to track the player
+     * Uses linear interpolation for smooth movement
+     * @param dt Delta time in seconds since last update
+     */
     update(dt: number) {
         if (!this.player) {
             return; // Should not happen if start check passes, but good practice

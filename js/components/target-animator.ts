@@ -2,8 +2,17 @@ import { Component, Object3D } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 import { vec3 } from 'gl-matrix';
 
+/**
+ * Reusable vector for position calculations to avoid allocations during update
+ */
 const tempPosition = vec3.create();
 
+/**
+ * Component that animates an end-level energy crystal or target
+ * Provides two simultaneous animations:
+ * 1. Continuous rotation around the Y axis
+ * 2. Smooth up and down movement in a sine wave pattern
+ */
 export class TargetAnimator extends Component {
     static TypeName = 'target-animator';
 
@@ -19,15 +28,33 @@ export class TargetAnimator extends Component {
     @property.float(0.25)
     verticalDistance!: number;
 
+    /**
+     * Original Y position of the object, used as the center point for vertical oscillation
+     * @private
+     */
     private _initialY: number = 0;
+
+    /**
+     * Total time elapsed since component activation, used for continuous animation
+     * @private
+     */
     private _elapsedTime: number = 0;
 
+    /**
+     * Captures initial position at start for reference in animation calculations
+     */
     start() {
         // Store the initial local Y position
         this.object.getPositionLocal(tempPosition);
         this._initialY = tempPosition[1];
     }
 
+    /**
+     * Updates the object's rotation and vertical position each frame
+     * Applies rotation around Y axis at constant speed
+     * Moves object up and down in a sine wave pattern
+     * @param dt Delta time in seconds since last update
+     */
     update(dt: number) {
         this._elapsedTime += dt;
 
